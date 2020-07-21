@@ -126,7 +126,7 @@ const Imagesfromdatabase = () => {
     }
 
     function showImages(keywords: string) {
-        api.get(`ImageObject?keywords=${keywords}&format=ItemList&properties=thumbnail,sizes`).then(response => {
+        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=thumbnail,sizes&limit=none&orderBy=uploadData&ordering=desc`).then(response => {
             const element = images(keywords,response.data);
             ReactDOM.render(element, target);
         });

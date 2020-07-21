@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const host = window.location.hostname;
+
 const api = axios.create({
-    baseURL: 'https://pirenopolis.local/api'
+    baseURL: `https://${host}/api`
 });
 
 export default api;
