@@ -24,8 +24,8 @@ interface imageObject {
     height: number
 }
 
-const Imagesfromdatabase = () => {
-    const target = document.getElementById('imagesfromdatabase');
+const Imagesfromdatabase = (props: any) => {
+    const target = props.target;
     const host = window.location.hostname;
 
     const [listGroups, setListGroups] = useState([]);
@@ -86,7 +86,7 @@ const Imagesfromdatabase = () => {
                         const item = listItem.item;
 
                         const id = item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                            if (PropertyValue.name == "fwc_id") {
+                            if (PropertyValue.name == "id") {
                                 return PropertyValue.value;
                             }
                         });
@@ -105,7 +105,7 @@ const Imagesfromdatabase = () => {
                                 
                                 <div className="admin-image-grid-buttons">
                                     <p>Tamanho {w} x {h}</p>
-                                    <input type="checkbox" name="idimageObject" defaultValue={id} />
+                                    <input type="checkbox" name="id" defaultValue={id} />
                                     <input type="image" src={imageOk} onClick={(event) => activeCheckbox(event)} />
                                 </div>
                             </figure>

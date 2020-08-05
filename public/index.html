@@ -10,8 +10,19 @@
 </head>
 
 <body>
-  <div id="imagesfromdatabase"></div>
-  <div id="imagesfromserver"></div>
+  
+  <fieldset style="width: 160px" id="taxonRank">
+    <legend>Classificação taxonômica</legend>
+    <select name="taxonRank" style="width: 160px">
+      <option value="">Escolha...</option>
+      <option value="family">Family</option>
+      <option value="genus">Genus</option>
+      <option value="species">Species</option>
+    </select>
+  </fieldset>
+
+  <fieldset style="width: 160px" id="parantTaxon"></fieldset>
+  
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
