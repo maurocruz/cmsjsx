@@ -1,26 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom";
 
-import Imagesfromdatabase from './components/Imagesfromdatabase';
-import Imagesfromserver from "./components/Imagesfromserver";
+import Navbar from './components/navbar/Navbar';
+import ImageObject from './types/imageObject/ImageObject';
+import Taxon from './types/taxon/Taxon';
 
-const imagesfromdatabase = document.getElementsByClassName("imagesfromdatabase");
-const imagesfromserver = document.getElementsByClassName("imagesfromserver");
+const navbar = new Navbar();
+const imageObject = new ImageObject();
+const taxon = new Taxon();
 
-if (imagesfromdatabase) {
-    for(const key in imagesfromdatabase) {
-        const container = imagesfromdatabase[key];
-        if (typeof container == 'object') {            
-            ReactDOM.render(<Imagesfromdatabase target={container} />, container);
-        }
-    }
-}
+// NAVBAR
+navbar.formSearch(); // form search auto complete
 
-if (imagesfromserver) {
-    for(const key in imagesfromserver) {
-        const container = imagesfromserver[key];
-        if (typeof container == 'object') {
-            ReactDOM.render(<>{Imagesfromserver(container)}</>, container);
-        }
-    }
-}
+// IMAGES FORMS
+imageObject.Imagesfromdatabase(); // images from database
+imageObject.Imagesfromserver(); // images from server
+
+// TAXON
+taxon.selectParentTaxon(); // select parent taxon
