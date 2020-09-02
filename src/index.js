@@ -1,18 +1,14 @@
 
-import Navbar from './components/navbar/Navbar';
-import ImageObject from './types/imageObject/ImageObject';
-import Taxon from './types/taxon/Taxon';
+import App from './App';
 
-const navbar = new Navbar();
-const imageObject = new ImageObject();
-const taxon = new Taxon();
+const app = new App();
 
 // NAVBAR
-navbar.formSearch(); // form search auto complete
+app.formSearch(); // form search auto complete
 
 // IMAGES FORMS
-imageObject.Imagesfromdatabase(); // images from database
-imageObject.Imagesfromserver(); // images from server
+app.Imagesfromdatabase(); // images from database
+app.Imagesfromserver(); // images from server
 
-// TAXON
-taxon.selectParentTaxon(); // select parent taxon
+// ADD EXISTENT
+app.addExistent() // search item in input for add type with is part of

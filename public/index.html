@@ -10,27 +10,20 @@
 </head>
 
 <body>
-  
+  <!--ADD EXISTENT TYPE-->
+  <div class="add-existent" data-type="place"></div>
+
+  <!-- SEARCH NAVBAR -->
   <div class="navbar-search" data-type="taxon" data-like="name"></div>
   <div class="navbar-search" data-type="localBusiness"></div>
 
-  
-  <fieldset style="width: 160px" id="taxonRank">
-    <legend>Classificação taxonômica</legend>
-    <select name="taxonRank" style="width: 160px">
-      <option value="">Escolha...</option>
-      <option value="family">Family</option>
-      <option value="genus">Genus</option>
-      <option value="species">Species</option>
-    </select>
-  </fieldset>
+  <!-- SELECT IMAGES FROM DATABASE -->
+  <div class="imagesfromdatabase"><button class="button">Selecionar Imagem no Banco de Dados</button></div>
 
-  <fieldset style="width: 160px" id="parantTaxon"></fieldset>
-  
-  <noscript>
-    You need to enable JavaScript to run this app.
-  </noscript>
+  <!-- SELECT IMAGE FROM SERVER  #### UNDER DEVELOPMENT #### -->
+  <div class="imagesfromserver"><button class="button">Selecionar imagem no servidor</button></div>
 
+  
   <script src="../dist/bundle.js"></script>
 </body>
 

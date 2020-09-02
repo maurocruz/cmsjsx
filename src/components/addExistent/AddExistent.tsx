@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ChangeEvent, LiHTMLAttributes, DetailedHTMLProps, createRef, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import api from '../../service/Api';
 
 interface ItemList {
@@ -16,20 +17,17 @@ interface Item {
     identifier: []
 }
 
-const FormSearch = (props: any) => {
+const AddExistent = (props: any) => {
     const target = props.target;
     const type = target.getAttribute('data-type');
     const like = target.getAttribute('data-like') ?? 'name';
-
-    const action = "/admin/"+type;
-    const form = useRef();
 
     const [itemList, setItemList] = useState([]);
     const [keyPress, setKeyPress] = useState([]);
 
     useEffect(() => {
         if (keyPress.length > 1) {
-            api.get<ItemList>(`${type}?format=ItemList&${like}Like=${keyPress}`).then(response => {
+            api.get<ItemList>(`${type}?format=ItemList&${like}Like=${keyPress}&orderBy=${like}`).then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {
@@ -40,20 +38,29 @@ const FormSearch = (props: any) => {
             setItemList([]);
         }
     }, [keyPress]);
-    
 
     function handleKeyPress(event: any) {
         setKeyPress(event.target.value);
     }
 
+    function handleSubmit(event: any) {  
+        const li = event.target;
+        const id = li.getAttribute('data-id')
+        
+        const ul = li.parentNode;
+        const inputId = ul.nextSibling;
+        const form = ul.parentNode.parentNode.parentNode;
+
+        form.id.value = id;
+
+        form.submit();
+    }
+
     return (
         <>
-            <form className="navbar-search-form" action={action} method="get" ref={form}>
-                <input name="q" type="text" autoComplete="off" onKeyUp={handleKeyPress} className="navbar-search-form-input" />
-                <button type="submit">
-                    <img src="/App/static/images/lupa_32x32.png" alt="Search" title="Search" className="navbar-search-form-image" />
-                </button>
-
+            <fieldset style={{width:"80%"}}>
+                <legend>Add existent type</legend>
+                <input type="text" autoComplete="off" onKeyUp={handleKeyPress} />
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
 
@@ -63,18 +70,17 @@ const FormSearch = (props: any) => {
                         if (PropertyValue.name == "id") {
                             return PropertyValue.value;
                         }
-                      });
-
-                    const href = "/admin/"+type+"/edit/"+id;
-                      
+                        });
+                        
                     return (
-                        <li key={itemListElement.position}><a href={href}>{item.name}</a></li>
+                        <li key={itemListElement.position} onClick={handleSubmit} data-id={id}>{item.name}</li>
                     )
                 })}
                 </ul>
-            </form>
+                <input name="id" type="hidden" value=""/>
+            </fieldset>
         </>
     )
 }
 
-export default FormSearch;
+export default AddExistent;

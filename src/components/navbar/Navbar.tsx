@@ -1,4 +1,4 @@
-import React, { Component, SelectHTMLAttributes} from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FormSearch from '../formSearch/FormSearch';
 
