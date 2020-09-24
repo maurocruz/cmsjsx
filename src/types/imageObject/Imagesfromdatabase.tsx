@@ -95,7 +95,7 @@ const Imagesfromdatabase = (props: any) => {
                         const ratio = w/h;
                         const span = Math.ceil((200/ratio)/25);
 
-                        const imageOk = "//"+host+"/fwcSrc/images/ok_64x64.png";
+                        const imageOk = "//"+host+"/App/static/cms/images/ok_64x64.png";
 
                         return (
                             <figure key={listItem.position} className="admin-images-grid-figure" style={{ gridRowEnd: `span ${span}` }}>
@@ -125,7 +125,7 @@ const Imagesfromdatabase = (props: any) => {
     }
 
     function showImages(keywords: string) {
-        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=thumbnail,sizes&limit=none&orderBy=uploadData&ordering=desc`).then(response => {
+        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=thumbnail,sizes&limit=none&orderBy=uploadDate&ordering=desc`).then(response => {
             const element = images(keywords,response.data);
             ReactDOM.render(element, target);
         });

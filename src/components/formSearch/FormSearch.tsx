@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, LiHTMLAttributes, DetailedHTMLProps, createRef, useRef } from 'react';
+import React, { useState, useEffect, ChangeEvent, LiHTMLAttributes, DetailedHTMLProps, createRef, useRef, Component, ComponentProps } from 'react';
 import api from '../../service/Api';
 
 interface ItemList {

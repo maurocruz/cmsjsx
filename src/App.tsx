@@ -35,8 +35,10 @@ class App extends Component
             for(const key in listObjects) {
                 const object = listObjects[key];
                 if (typeof object == 'object') {
-                    Component.props['target'] = object;
-                    ReactDOM.render(Component, object);
+                    let cloneComponent = React.cloneElement(Component,{target: object});
+                    ReactDOM.render(cloneComponent, object);
+                    //Component.props = object;
+                    //ReactDOM.render(Component, object);
                 }
             }
         }
