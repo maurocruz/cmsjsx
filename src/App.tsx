@@ -37,8 +37,6 @@ class App extends Component
                 if (typeof object == 'object') {
                     let cloneComponent = React.cloneElement(Component,{target: object});
                     ReactDOM.render(cloneComponent, object);
-                    //Component.props = object;
-                    //ReactDOM.render(Component, object);
                 }
             }
         }
