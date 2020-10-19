@@ -20,6 +20,8 @@ interface Item {
 const AddExistent = (props: any) => {
     const target = props.target;
     const type = target.getAttribute('data-type');
+    const propertyName = target.getAttribute('data-propertyName');
+    const idHasPart = target.getAttribute('data-idHasPart');
     const like = target.getAttribute('data-like') ?? 'name';
 
     const [itemList, setItemList] = useState([]);
@@ -51,15 +53,34 @@ const AddExistent = (props: any) => {
         const inputId = ul.nextSibling;
         const form = ul.parentNode.parentNode.parentNode;
 
-        form.id.value = id;
+        if (propertyName) {
+            document.getElementById("idValue").setAttribute('value',id);
+        } else {
+            form.id.value = id;
+        }
 
         form.submit();
     }
 
+    const InputsHidden = () => {
+        if (propertyName) {
+            return (
+                <>
+                    <input name="id" type="hidden" value={idHasPart} />
+                    <input id="idValue" name={propertyName} type="hidden" value="" />
+                </>
+            );
+        } else {
+            return (
+                <input name="id" type="hidden" value="" />
+            );
+        }
+    };
+
     return (
         <>
             <fieldset style={{width:"80%"}}>
-                <legend>Add existent type</legend>
+                <legend>Add {propertyName || type}</legend>
                 <input type="text" autoComplete="off" onKeyUp={handleKeyPress} />
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
@@ -77,7 +98,7 @@ const AddExistent = (props: any) => {
                     )
                 })}
                 </ul>
-                <input name="id" type="hidden" value=""/>
+                <InputsHidden/>
             </fieldset>
         </>
     )
