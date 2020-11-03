@@ -45,7 +45,7 @@ const FormSearch = (props: any) => {
     function handleKeyPress(event: any) {
         setKeyPress(event.target.value);
     }
-
+    
     return (
         <>
             <form className="navbar-search-form" action={action} method="get" ref={form}>
@@ -56,15 +56,15 @@ const FormSearch = (props: any) => {
 
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
-
                     const item = itemListElement.item;
-
-                    const id = item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                        if (PropertyValue.name == "id") {
-                            return PropertyValue.value;
-                        }
-                      });
-
+                    let id = '';
+                    
+                    item.identifier.map( (PropertyValue: { name: string, value: string }) => {
+                      if (PropertyValue.name == "id") {
+                          id = PropertyValue.value;
+                      }
+                    });
+                    
                     const href = "/admin/"+type+"/edit/"+id;
                       
                     return (
