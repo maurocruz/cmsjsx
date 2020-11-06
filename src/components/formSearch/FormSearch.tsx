@@ -13,12 +13,14 @@ interface ItemListElement {
 
 interface Item {
     name: string,
+    keywords: string,
     identifier: []
 }
 
 const FormSearch = (props: any) => {
     const target = props.target;
     const type = target.getAttribute('data-type');
+    const params = target.getAttribute('data-params');
     const like = target.getAttribute('data-like') ?? 'name';
 
     const action = "/admin/"+type;
@@ -29,7 +31,9 @@ const FormSearch = (props: any) => {
 
     useEffect(() => {
         if (keyPress.length > 1) {
-            api.get<ItemList>(`${type}?format=ItemList&${like}Like=${keyPress}`).then(response => {
+            let baseurl = `${type}?format=ItemList&${like}Like=${keyPress}`;
+            let url = params ? baseurl+"&"+params : baseurl;
+            api.get<ItemList>(url).then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {
@@ -57,6 +61,8 @@ const FormSearch = (props: any) => {
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
                     const item = itemListElement.item;
+                    let href = "";
+                    let name = "";
                     let id = '';
                     
                     item.identifier.map( (PropertyValue: { name: string, value: string }) => {
@@ -65,10 +71,16 @@ const FormSearch = (props: any) => {
                       }
                     });
                     
-                    const href = "/admin/"+type+"/edit/"+id;
-                      
+                    if (like == "keywords") {
+                        name = item.keywords;
+                        href = "/admin/"+type+"/keywords/"+name;
+                    } else {
+                        href = "/admin/"+type+"/edit/"+id;
+                        name = item.name;
+                    }
+                    
                     return (
-                        <li key={itemListElement.position}><a href={href}>{item.name}</a></li>
+                        <li key={itemListElement.position}><a href={href}>{name}</a></li>
                     )
                 })}
                 </ul>
