@@ -22,6 +22,7 @@ const FormSearch = (props: any) => {
     const type = target.getAttribute('data-type');
     const params = target.getAttribute('data-params');
     const like = target.getAttribute('data-like') ?? 'name';
+    const placeholderText = "Search by "+like;
 
     const action = "/admin/"+type;
     const form = useRef();
@@ -53,7 +54,7 @@ const FormSearch = (props: any) => {
     return (
         <>
             <form className="navbar-search-form" action={action} method="get" ref={form}>
-                <input name="q" type="text" autoComplete="off" onKeyUp={handleKeyPress} className="navbar-search-form-input" />
+                <input name="q" type="text" autoComplete="off" onKeyUp={handleKeyPress} className="navbar-search-form-input" placeholder={placeholderText} />
                 <button type="submit">
                     <img src="/App/static/images/lupa_32x32.png" alt="Search" title="Search" className="navbar-search-form-image" />
                 </button>

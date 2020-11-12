@@ -104,7 +104,7 @@ const Imagesfromdatabase = (props: any) => {
                                 
                                 <div className="admin-image-grid-buttons">
                                     <p>Tamanho {w} x {h}</p>
-                                    <input type="checkbox" name="id" defaultValue={id} />
+                                    <input type="checkbox" name="id[]" defaultValue={id} />
                                     <input type="image" src={imageOk} onClick={(event) => activeCheckbox(event)} />
                                 </div>
                             </figure>
