@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../service/Api';
-import './imagesfromdatabase.css'
 
 interface itemList {
     itemListElement: [];
