@@ -62,8 +62,8 @@ const FormSearch = (props: any) => {
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
                     const item = itemListElement.item;
+                    let name = item[like];
                     let href = "";
-                    let name = "";
                     let id = '';
                     
                     item.identifier.map( (PropertyValue: { name: string, value: string }) => {
@@ -73,11 +73,9 @@ const FormSearch = (props: any) => {
                     });
                     
                     if (like == "keywords") {
-                        name = item.keywords;
                         href = "/admin/"+type+"/keywords/"+name;
                     } else {
                         href = "/admin/"+type+"/edit/"+id;
-                        name = item.name;
                     }
                     
                     return (
