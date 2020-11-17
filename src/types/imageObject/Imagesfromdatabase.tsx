@@ -92,7 +92,7 @@ const Imagesfromdatabase = (props: any) => {
                         const w = item.width;
                         const h = item.height;
                         const ratio = w/h;
-                        const span = Math.ceil((200/ratio)/25);
+                        const span = Math.ceil(((h/w)*11)+3);
 
                         const imageOk = "//"+host+"/App/static/cms/images/ok_64x64.png";
 
@@ -101,11 +101,11 @@ const Imagesfromdatabase = (props: any) => {
 
                                 <img src={item.thumbnail} title={item.keywords} />
                                 
-                                <div className="admin-image-grid-buttons">
+                                <figcaption className="admin-image-grid-buttons">
                                     <p>Tamanho {w} x {h}</p>
                                     <input type="checkbox" name="id[]" defaultValue={id} />
                                     <input type="image" src={imageOk} onClick={(event) => activeCheckbox(event)} />
-                                </div>
+                                </figcaption>
                             </figure>
                         )
                     })}   
