@@ -28,9 +28,9 @@ class App extends Component
         this.getObjectByClassName("imagesfromserver",<Imagesfromserver/>);
     }
 
-    private getObjectByClassName(classname: string, Component: JSX.Element ) {        
+    private getObjectByClassName(classname: string, Component: JSX.Element) {        
         const listObjects = document.getElementsByClassName(classname);
-
+        
         if (listObjects) {
             for(const key in listObjects) {
                 const object = listObjects[key];

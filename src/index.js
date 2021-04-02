@@ -1,6 +1,9 @@
 
 import App from './App';
 
+globalThis.host = window.apiHost ? window.apiHost : 'https://'+window.location.hostname+'/api/';
+globalThis.folder = window.staticFolder ? window.staticFolder : host+"App/static/";
+
 const app = new App();
 
 // NAVBAR

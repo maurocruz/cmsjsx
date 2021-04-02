@@ -14,8 +14,8 @@ interface listItem {
 
 interface imageObject {
     identifier: [],
-    url: string,
-    thumbnail: string,
+    contentUrl: string,
+    thumbnail: string;
     position: number,
     keywords: string,
     width: number,
@@ -24,8 +24,8 @@ interface imageObject {
 
 const Imagesfromdatabase = (props: any) => {
     const target = props.target;
-    const host = window.location.hostname;
-
+    const imageOk = folder+"/images/ok_64x64.png";
+    
     const [listGroups, setListGroups] = useState([]);
     const [numberOfGroups, setNumberOfGroups] = useState('');
 
@@ -94,8 +94,6 @@ const Imagesfromdatabase = (props: any) => {
                         const ratio = w/h;
                         const span = Math.ceil(((h/w)*11)+3);
 
-                        const imageOk = "//"+host+"/App/static/cms/images/ok_64x64.png";
-
                         return (
                             <figure key={listItem.position} className="admin-images-grid-figure" style={{ gridRowEnd: `span ${span}` }}>
 
@@ -124,7 +122,7 @@ const Imagesfromdatabase = (props: any) => {
     }
 
     function showImages(keywords: string) {
-        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=thumbnail,sizes&limit=none&orderBy=uploadDate&ordering=desc`).then(response => {
+        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=*&limit=none&orderBy=uploadDate&ordering=desc`).then(response => {
             const element = images(keywords,response.data);
             ReactDOM.render(element, target);
         });
