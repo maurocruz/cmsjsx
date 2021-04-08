@@ -5,9 +5,15 @@ import Imagesfromdatabase from './types/imageObject/Imagesfromdatabase';
 import Imagesfromserver from './types/imageObject/Imagesfromserver';
 import FormSearch from './components/formSearch/FormSearch';
 import AddExistent from './components/addExistent/AddExistent';
+import ChooseType from './components/ChooseType';
 
 class App extends Component 
 {
+    // choose type and select item for the relationship one to one
+    chooseType() {
+        this.getObjectByClassName("choose-type",<ChooseType/>);
+    };
+    
     // input for search for add existent type with is part of
     addExistent() {
         this.getObjectByClassName("add-existent",<AddExistent/>);
