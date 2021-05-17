@@ -28,9 +28,10 @@ const Imagesfromdatabase = (props: any) => {
     
     const [listGroups, setListGroups] = useState([]);
     const [numberOfGroups, setNumberOfGroups] = useState('');
+    const [imageWidth, setImageWidth] = useState(Number);
 
     useEffect(() => {
-        api.get<itemList>('imageObject?groupBy=keywords&orderBy=keywords&format=ItemList').then(response => {
+        api.get<itemList>(`${hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList`).then(response => {
             setNumberOfGroups(response.data.numberOfItems);
             setListGroups(response.data.itemListElement);
         })
@@ -82,13 +83,12 @@ const Imagesfromdatabase = (props: any) => {
                 <div className="admin-images-grid">
                     {itemListElement.map((listItem: { item: imageObject, position: number })  => {
                         const item = listItem.item;
-
                         const id = item.identifier.map( (PropertyValue: { name: string, value: string }) => {
                             if (PropertyValue.name == "id") {
                                 return PropertyValue.value;
                             }
                         });
-
+                        const imageSrc = item.thumbnail;// ?? (item.contentUrl.indexOf('http') !== -1 ? item.contentUrl : host+item.contentUrl);
                         const w = item.width;
                         const h = item.height;
                         const ratio = w/h;
@@ -97,7 +97,7 @@ const Imagesfromdatabase = (props: any) => {
                         return (
                             <figure key={listItem.position} className="admin-images-grid-figure" style={{ gridRowEnd: `span ${span}` }}>
 
-                                <img src={item.thumbnail} title={item.keywords} />
+                                <img src={imageSrc} title={item.keywords} />
                                 
                                 <figcaption className="admin-image-grid-buttons">
                                     <p>Tamanho {w} x {h}</p>
@@ -122,7 +122,7 @@ const Imagesfromdatabase = (props: any) => {
     }
 
     function showImages(keywords: string) {
-        api.get(`imageObject?keywords=${keywords}&format=ItemList&properties=*&limit=none&orderBy=uploadDate&ordering=desc`).then(response => {
+        api.get(`${hostApi}imageObject?keywords=${keywords}&format=ItemList&properties=*&limit=none&orderBy=uploadDate&ordering=desc&thumbnail=on`).then(response => {
             const element = images(keywords,response.data);
             ReactDOM.render(element, target);
         });
