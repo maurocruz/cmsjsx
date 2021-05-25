@@ -21,7 +21,7 @@ const FormSearch = (props: any) => {
     const target = props.target;
     const type = target.getAttribute('data-type');
     const params = target.getAttribute('data-params');
-    const like = target.getAttribute('data-like') ?? 'name';
+    const like = target.getAttribute('data-searchBy') ?? 'name';
     const placeholderText = "Search by "+like;
     const lupa = folder+"images/lupa_32x32.png";
 
