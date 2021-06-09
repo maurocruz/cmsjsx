@@ -33,7 +33,7 @@ const FormSearch = (props: any) => {
 
     useEffect(() => {
         if (keyPress.length > 1) {
-            let baseurl = `${type}?format=ItemList&${like}Like=${keyPress}`;
+            let baseurl = `${type}?format=ItemList&properties=name&${like}Like=${keyPress}`;
             let url = params ? baseurl+"&"+params : baseurl;
             api.get<ItemList>(url).then(response => {
                 if (response.data.numberOfItems > 0) {
