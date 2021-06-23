@@ -87,12 +87,8 @@ const AddExistent = (props: any) => {
                 <input type="text" autoComplete="off" onKeyUp={handleKeyPress} />
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
-
                     const item = itemListElement.item;
-                    console.log(item);
-
-                    const id = item.identifier.name == 'id' ? item.identifier.value : null;
-                        
+                    const id = item.identifier.name == 'id' ? item.identifier.value : null;                        
                     return (
                         <li key={itemListElement.position} onClick={handleSubmit} data-id={id}>{item.name}</li>
                     )
