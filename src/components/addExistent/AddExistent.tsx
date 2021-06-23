@@ -14,7 +14,10 @@ interface ItemListElement {
 
 interface Item {
     name: string,
-    identifier: []
+    identifier: {
+        name: string,
+        value: string
+    }
 }
 
 const AddExistent = (props: any) => {
@@ -86,12 +89,9 @@ const AddExistent = (props: any) => {
                 {itemList.map((itemListElement: ItemListElement) => {
 
                     const item = itemListElement.item;
+                    console.log(item);
 
-                    const id = item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                        if (PropertyValue.name == "id") {
-                            return PropertyValue.value;
-                        }
-                        });
+                    const id = item.identifier.name == 'id' ? item.identifier.value : null;
                         
                     return (
                         <li key={itemListElement.position} onClick={handleSubmit} data-id={id}>{item.name}</li>
