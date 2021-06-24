@@ -14,7 +14,16 @@ interface ItemListElement {
 interface Item {
     name: string,
     keywords: string,
-    identifier: []
+    identifier: {
+        name: string,
+        value: string
+    }
+}
+
+const searchStyle = {
+    cursor: 'pointer',
+    width: '30px',
+    verticalAlign: 'middle'
 }
 
 const FormSearch = (props: any) => {
@@ -56,22 +65,14 @@ const FormSearch = (props: any) => {
         <>
             <form className="navbar-search-form" action={action} method="get" ref={form}>
                 <input name="q" type="text" autoComplete="off" onKeyUp={handleKeyPress} className="navbar-search-form-input" placeholder={placeholderText} />
-                <button type="submit">
-                    <img src={lupa} alt="Search" title="Search" className="navbar-search-form-image" />
-                </button>
+                <button type="submit" title="Search" style={searchStyle}><span className="material-icons">search</span></button>
 
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
                     const item = itemListElement.item;
                     let name = item[like];
-                    let href = "";
-                    let id = '';
-                    
-                    item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                      if (PropertyValue.name == "id") {
-                          id = PropertyValue.value;
-                      }
-                    });
+                    let href = "";                    
+                    const id = item.identifier.name == 'id' ? item.identifier.value : null;   
                     
                     if (like == "keywords") {
                         href = "/admin/"+type+"/keywords/"+name;
