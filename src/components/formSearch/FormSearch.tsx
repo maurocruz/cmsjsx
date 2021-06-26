@@ -71,7 +71,7 @@ const FormSearch = (props: any) => {
                 {itemList.map((itemListElement: ItemListElement) => {
                     const item = itemListElement.item;
                     let name = item[like];
-                    let href = "";                    
+                    let href = "";
                     const id = item.identifier.name == 'id' ? item.identifier.value : null;   
                     
                     if (like == "keywords") {

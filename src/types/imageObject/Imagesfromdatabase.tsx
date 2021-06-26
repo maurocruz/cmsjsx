@@ -13,7 +13,10 @@ interface listItem {
 }
 
 interface imageObject {
-    identifier: [],
+    identifier: {
+        name: string,
+        value: string
+    },
     contentUrl: string,
     thumbnail: string;
     position: number,
@@ -83,16 +86,12 @@ const Imagesfromdatabase = (props: any) => {
                 <div className="admin-images-grid">
                     {itemListElement.map((listItem: { item: imageObject, position: number })  => {
                         const item = listItem.item;
-                        const id = item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                            if (PropertyValue.name == "id") {
-                                return PropertyValue.value;
-                            }
-                        });
-                        const imageSrc = item.thumbnail;// ?? (item.contentUrl.indexOf('http') !== -1 ? item.contentUrl : host+item.contentUrl);
+                        const id = item.identifier.name == 'id' ? item.identifier.value : null;   
+                        const imageSrc = item.thumbnail;
                         const w = item.width;
                         const h = item.height;
                         const ratio = w/h;
-                        const span = Math.ceil(((h/w)*11)+3);
+                        const span = Math.ceil(((h/w)*11)+5);
 
                         return (
                             <figure key={listItem.position} className="admin-images-grid-figure" style={{ gridRowEnd: `span ${span}` }}>
@@ -102,7 +101,7 @@ const Imagesfromdatabase = (props: any) => {
                                 <figcaption className="admin-image-grid-buttons">
                                     <p>Tamanho {w} x {h}</p>
                                     <input type="checkbox" name="id[]" defaultValue={id} />
-                                    <input type="image" src={imageOk} onClick={(event) => activeCheckbox(event)} />
+                                    <button type="submit" onClick={(event) => activeCheckbox(event)} className="form-submit-button-send"><span className="material-icons">send</span></button>
                                 </figcaption>
                             </figure>
                         )
