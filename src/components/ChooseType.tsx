@@ -14,7 +14,10 @@ interface ItemListElement {
 interface Item {
     name: string,
     keywords: string,
-    identifier: []
+    identifier: {
+        name: string,
+        value: string
+    }
 }
 
 const ChooseType = (props: any) => {
@@ -129,14 +132,8 @@ const ChooseType = (props: any) => {
                     const item = itemListElement.item;
                     let name = item[like];
                     let href = "";
-                    let id = '';
+                    let id = item.identifier.value;                    
                     
-                    item.identifier.map( (PropertyValue: { name: string, value: string }) => {
-                      if (PropertyValue.name == "id") {
-                          id = PropertyValue.value;
-                      }
-                    });
-
                     setInputHidden(keyPress, name, id);
 
                     return (
