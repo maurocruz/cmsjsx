@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState, useEffect, ChangeEvent, LiHTMLAttributes, DetailedHTMLProps, createRef, useRef, Component, ComponentProps } from 'react';
 import api from '../../service/Api';
 
@@ -32,6 +33,7 @@ const FormSearch = (props: any) => {
     const params = target.getAttribute('data-params');
     const like = target.getAttribute('data-searchBy') ?? 'name';
     const placeholderText = "Search by "+like;
+    // @ts-ignore
     const lupa = folder+"images/lupa_32x32.png";
 
     const action = "/admin/"+type;
