@@ -34,7 +34,7 @@ const Imagesfromdatabase = (props: any) => {
     const [imageWidth, setImageWidth] = useState(Number);
 
     useEffect(() => {
-        api.get<itemList>(`${hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList`).then(response => {
+        api.get<itemList>(`${hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList&fields=distinct(keywords)`).then(response => {
             setNumberOfGroups(response.data.numberOfItems);
             setListGroups(response.data.itemListElement);
         })
