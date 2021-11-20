@@ -1,4 +1,5 @@
-globalThis.host = window.host ? window.host : 'https://'+window.location.hostname+'/';
+
+globalThis.host =  window.host ? window.host : 'https://'+window.location.hostname+'/';
 globalThis.hostApi = window.apiHost ? window.apiHost : 'https://'+window.location.hostname+'/api/';
 globalThis.folder = window.staticFolder ? window.staticFolder : host+"../App/static/cms/";
 

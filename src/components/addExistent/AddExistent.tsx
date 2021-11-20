@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import api from '../../service/Api';
@@ -32,7 +33,9 @@ const AddExistent = (props: any) => {
 
     useEffect(() => {
         if (keyPress.length > 1) {
-            api.get<ItemList>(`${type}?format=ItemList&${like}Like=${keyPress}&orderBy=${like}`).then(response => {
+
+            axios.get<ItemList>(hostApi + `${type}?format=ItemList&${like}Like=${keyPress}&orderBy=${like}`)
+            .then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {

@@ -1,5 +1,8 @@
-import React, { useState, useEffect, ChangeEvent, LiHTMLAttributes, DetailedHTMLProps, createRef, useRef, Component, ComponentProps } from 'react';
-import api from '../../service/Api';
+import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
+import { Icon } from '@iconify/react';
+
+const querystring = require('querystring');
 
 interface ItemList {
     itemListElement: [];
@@ -28,14 +31,25 @@ const searchStyle = {
 
 const FormSearch = (props: any) => {
     const target = props.target;
+
     const type = target.getAttribute('data-type');
     const params = target.getAttribute('data-params');
     const like = target.getAttribute('data-searchBy') ?? 'name';
-    const placeholderText = "Search by "+like;
-    const lupa = folder+"images/lupa_32x32.png";
+    const linkList = target.getAttribute('data-linkList') as string;
+    const action = target.getAttribute('data-action') ?? "/admin/"+type;
 
-    const action = "/admin/"+type;
-    const form = useRef();
+    // if action has query string
+    let queryStringToInput = new Array();
+    const split  = action.split('?');
+    if (split.length > 1) {
+        const parsedQueryString = querystring.parse(split[1]);
+        queryStringToInput = Object.entries(parsedQueryString);
+    }
+
+    const input = useRef<HTMLInputElement>();
+
+    // place holder of input search
+    const placeholderText = "Search by "+like;
 
     const [itemList, setItemList] = useState([]);
     const [keyPress, setKeyPress] = useState([]);
@@ -43,8 +57,7 @@ const FormSearch = (props: any) => {
     useEffect(() => {
         if (keyPress.length > 1) {
             let baseurl = `${type}?format=ItemList&properties=name&${like}Like=${keyPress}`;
-            let url = params ? baseurl+"&"+params : baseurl;
-            api.get<ItemList>(url).then(response => {
+            axios.get<ItemList>(hostApi + baseurl).then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {
@@ -60,12 +73,34 @@ const FormSearch = (props: any) => {
     function handleKeyPress(event: any) {
         setKeyPress(event.target.value);
     }
+
+    function handleOnBlur() {
+        setItemList([]);
+        if (input.current)  input.current.value = '';
+    }
     
     return (
         <>
-            <form className="navbar-search-form" action={action} method="get" ref={form}>
-                <input name="q" type="text" autoComplete="off" onKeyUp={handleKeyPress} className="navbar-search-form-input" placeholder={placeholderText} />
-                <button type="submit" title="Search" style={searchStyle}><span className="material-icons">search</span></button>
+            <form className="navbar-search-form" action={action} method="get">
+
+                <input 
+                    ref={input}
+                    name="search" 
+                    type="text" 
+                    className="navbar-search-form-input" 
+                    autoComplete="off" 
+                    onKeyUp={handleKeyPress} 
+                    onBlur={handleOnBlur}
+                    placeholder={placeholderText} 
+                />
+
+                {queryStringToInput.length >0 && queryStringToInput.map(([key, value]) => {
+                    return (
+                        <input key={key} name={key} type="hidden" defaultValue={value} />
+                    )
+                })}
+                
+                <button type="submit" title="Search" style={searchStyle} onMouseDown={(e)=>{e.preventDefault()}}><Icon icon="ic:round-search" /></button>
 
                 <ul className="list-popup">
                 {itemList.map((itemListElement: ItemListElement) => {
@@ -77,11 +112,11 @@ const FormSearch = (props: any) => {
                     if (like == "keywords") {
                         href = "/admin/"+type+"/keywords/"+name;
                     } else {
-                        href = "/admin/"+type+"/edit/"+id;
+                        href = linkList ? linkList.replace('[idItem]', id) : "/admin/"+type+"/edit/"+id;
                     }
                     
                     return (
-                        <li key={itemListElement.position}><a href={href}>{name}</a></li>
+                        <li key={itemListElement.position} onMouseDown={(e)=>{e.preventDefault()}}><a href={href}>{name}</a></li>
                     )
                 })}
                 </ul>
