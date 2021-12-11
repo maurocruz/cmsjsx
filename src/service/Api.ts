@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: globalThis.apiHost
+    baseURL: globalThis.hostApi
 });
 
 export default api;

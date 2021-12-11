@@ -16,23 +16,24 @@
 
   <!-- CHOOSE TYPE AND SELECT ITEM TYPE FOR RELATIONSHIP ONE TO ONE-->
   <p>Choose type and select item for the relationship one to one</p>
-  <div class="choose-type" data-types="organization,person" data-property="customer" data-like="name" data-currentType="" data-currentName="" data-currentId=""></div>
+  <div class="choose-type" data-types="localBusiness,organization,person" data-property="customer" data-like="name" data-currentType="" data-currentName="" data-currentId=""></div>
   
   <!--ADD EXISTENT TYPE-->
-  <div class="add-existent" data-type="webPage" data-propertyName="name" data-idHasPart="161"></div>
+  <p>Add existent Place</p>
+  <div class="add-existent" data-type="place" data-propertyname="location" data-idhaspart="2317"></div>
 
   <!-- SEARCH NAVBAR -->
   <p>ImageObject keyword search</p>
-  <div class="navbar-search" data-type="imageObject" data-like="keywords" data-params="groupBy=keywords&orderBy=keywords&ordering=asc"></div>
+  <div class="navbar-search" data-type="imageObject" data-searchby="keywords" data-params="groupBy=keywords&orderBy=keywords&ordering=asc"></div>
 
   <!-- SEARCH NAVBAR -->
   <p>WebPage search</p>
-  <div class="navbar-search" data-type="webPage" data-like="name"></div>
+  <div class="navbar-search" data-type="webPage" data-action="/admin/webSite/webPage?id=1&action=search" data-searchby="name" data-params="" data-linkList="/admin/webSite/webPage?id=1&item=[idItem]"></div>
  
 
   <!-- SEARCH NAVBAR -->
   <p>article search</p>
-  <div class="navbar-search" data-type="article" data-like="headline"></div>
+  <div class="navbar-search" data-type="article" data-searchby="headline"></div>
  
 
   <!-- SELECT IMAGES FROM DATABASE -->
@@ -41,7 +42,8 @@
   <!-- SELECT IMAGE FROM SERVER  #### UNDER DEVELOPMENT #### -->
   <div class="imagesfromserver"><button class="button">Selecionar imagem no servidor</button></div>
 
-  
+
+  <script>const host = "https://pirenopolis.local/"; const hostApi="https://pirenopolis.local/api/";</script>
   <script src="../dist/bundle.js"></script>
 </body>
 

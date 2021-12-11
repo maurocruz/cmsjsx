@@ -1,5 +1,5 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import api from '../service/Api';
 
 interface ItemList {
     itemListElement: [];
@@ -45,9 +45,8 @@ const ChooseType = (props: any) => {
 
     useEffect(() => {
         if (keyPress.length > 1) {
-            let baseurl = `${typeSelected}?format=ItemList&${like}Like=${keyPress}`;
-            let url = params ? baseurl+"&"+params : baseurl;
-            api.get<ItemList>(url).then(response => {
+            axios.get<ItemList>(hostApi + `${typeSelected}?format=ItemList&${like}Like=${keyPress}&`+params)
+            .then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {
