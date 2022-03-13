@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import api from '../../service/Api';
 
 interface ItemList {
     itemListElement: [];
@@ -27,6 +25,7 @@ const AddExistent = (props: any) => {
     const propertyName = target.getAttribute('data-propertyName');
     const idHasPart = target.getAttribute('data-idHasPart');
     const like = target.getAttribute('data-like') ?? 'name';
+    const orderBy = target.getAttribute('data-orderBy') ?? like;
 
     const [itemList, setItemList] = useState([]);
     const [keyPress, setKeyPress] = useState([]);
@@ -34,7 +33,7 @@ const AddExistent = (props: any) => {
     useEffect(() => {
         if (keyPress.length > 1) {
 
-            axios.get<ItemList>(hostApi + `${type}?format=ItemList&${like}Like=${keyPress}&orderBy=${like}`)
+            axios.get<ItemList>(hostApi + `${type}?format=ItemList&${like}Like=${keyPress}&orderBy=${orderBy}`)
             .then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
