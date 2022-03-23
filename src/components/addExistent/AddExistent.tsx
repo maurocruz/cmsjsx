@@ -59,7 +59,7 @@ const AddExistent = (props: any) => {
         const form = ul.parentNode.parentNode.parentNode;
 
         if (propertyName) {
-            document.getElementById("idValue").setAttribute('value',id);
+            form.elements[propertyName].value = id;
         } else {
             form.id.value = id;
         }
