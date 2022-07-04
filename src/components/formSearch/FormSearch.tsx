@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Icon } from '@iconify/react';
 
-const querystring = require('querystring');
+//const querystring = require('node:querystring');
 
 interface ItemList {
     itemListElement: [];
@@ -42,8 +42,8 @@ const FormSearch = (props: any) => {
     let queryStringToInput = new Array();
     const split  = action.split('?');
     if (split.length > 1) {
-        const parsedQueryString = querystring.parse(split[1]);
-        queryStringToInput = Object.entries(parsedQueryString);
+        //const parsedQueryString = querystring.parse(split[1]);
+        //queryStringToInput = Object.entries(parsedQueryString);
     }
 
     const input = useRef<HTMLInputElement>();

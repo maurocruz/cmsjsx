@@ -1,0 +1,31 @@
+.pageNavigation {
+    
+  a {
+    margin: 0 3px;
+    color: #d7d7d9;
+    text-decoration: none;
+  }
+
+  .pageNavigation-countPages {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .pageNavigation-selectLimit {
+    display: inline-block;
+  }
+
+  .pageNavigation-numbering {
+    margin: 5px 0;
+
+    .pageNavigation-number {
+      border: rgba(255, 255, 255, 0.5) solid 1px;
+      border-radius: 6px;
+      padding: 0 3px;
+    }
+    .pageNavigation-ward {
+      vertical-align: middle;
+      font-size: 1.6em;
+    }
+  }
+}

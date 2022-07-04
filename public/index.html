@@ -6,45 +6,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Plinct CMS Rect Developer</title>
+  <title>ImageGrid - Plinct CMS</title>
 </head>
 
 <body>
-  <!-- CHOOSE TYPE AND SELECT ITEM TYPE FOR RELATIONSHIP ONE TO ONE-->
-  <p>Choose type and select item for the relationship one to one</p>
-  <div class="choose-type" data-types="service,product" data-property="seller" data-like="name" data-currentType="service" data-currentName="Morro Alto Tur" data-currentId="999" ></div>
 
-  <!-- CHOOSE TYPE AND SELECT ITEM TYPE FOR RELATIONSHIP ONE TO ONE-->
-  <p>Choose type and select item for the relationship one to one</p>
-  <div class="choose-type" data-types="localBusiness,organization,person" data-property="customer" data-like="name" data-currentType="" data-currentName="" data-currentId=""></div>
+  <div id="imageGrid" data-apiHost="https://plinct.local/api"></div>
   
-  <!--ADD EXISTENT TYPE-->
-  <p>Add existent place</p>
-  <div class="add-existent" data-type="place" data-propertyname="location" data-idhaspart="2344" data-orderBy="dateCreated desc"></div>
+  <script src="../dist/imageGrid.bundle.js"></script>
 
-  <!-- SEARCH NAVBAR -->
-  <p>ImageObject keyword search</p>
-  <div class="navbar-search" data-type="imageObject" data-searchby="keywords" data-params="groupBy=keywords&orderBy=keywords&ordering=asc"></div>
-
-  <!-- SEARCH NAVBAR -->
-  <p>WebPage search</p>
-  <div class="navbar-search" data-type="webPage" data-action="/admin/webSite/webPage?id=1&action=search" data-searchby="name" data-params="" data-linkList="/admin/webSite/webPage?id=1&item=[idItem]"></div>
- 
-
-  <!-- SEARCH NAVBAR -->
-  <p>article search</p>
-  <div class="navbar-search" data-type="article" data-searchby="headline"></div>
- 
-
-  <!-- SELECT IMAGES FROM DATABASE -->
-  <div class="imagesfromdatabase"><button class="button">Selecionar Imagem no Banco de Dados</button></div>
-
-  <!-- SELECT IMAGE FROM SERVER  #### UNDER DEVELOPMENT #### -->
-  <div class="imagesfromserver"><button class="button">Selecionar imagem no servidor</button></div>
-
-
-  <script>const host = "https://pirenopolis.local/"; const hostApi="https://pirenopolis.local/api/";</script>
-  <script src="../dist/bundle.js"></script>
 </body>
 
 </html>

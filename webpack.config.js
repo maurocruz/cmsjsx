@@ -2,7 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/index.js",
+    imageGrid: "./src/imageGrid.js"
+  },
   mode: "development",
   module: {
     rules: [
@@ -10,11 +13,31 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /(node_modules|bower_components)/,
         loader: "babel-loader",
-        options: { presets: ["@babel/env"] }
+        options: { 
+          presets: [
+            "@babel/env",
+            "@babel/preset-react",
+            "@babel/preset-typescript",
+          ] 
+        }
       },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader"]
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              // Prefer `dart-sass`
+              implementation: require("sass"),
+            },
+          },
+        ],
       }
     ]
   },
@@ -24,6 +47,6 @@ module.exports = {
   output: {
     path: path.resolve(__dirname,"dist"),
     publicPath: "/dist/",
-    filename: "bundle.js"
+    filename: "[name].bundle.js"
   }
 };
