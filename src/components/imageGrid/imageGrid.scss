@@ -44,4 +44,48 @@
       }
     }
   }
+
+  .imageGrid-groupList {
+
+    a {
+      color: #D7D7D9;
+    }
+
+    .imageGrid-groupList-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .imageGrid-groupList-item {
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .imageGrid-groupList-figure {
+      line-height: normal;
+      background-image: url('https://plinct.com.br/App/static/cms/images/folder_120w.png');
+      padding: 17px 5px 0;
+      background-repeat: no-repeat;
+      width: 110px;
+      margin: 0;
+
+      img {
+        width: 110px;
+        height: 75px;
+        border-radius: 5px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+
+  .imageGrid-backHistory {
+    cursor: pointer;
+    margin: 10px 0;
+
+    svg {
+      font-size: 1.6em;
+      vertical-align: middle;
+    }
+  }
 }

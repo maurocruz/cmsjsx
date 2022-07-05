@@ -1,60 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { Fragment } from 'react';
 
-import PageNavigation from '../pageNavigation/PageNavigation';
-import FigureOnGrid from './FigureOnGrid';
+import useImageObject from '../../Hooks/useImageObject/useImageObject';
+import GroupOnGrid from './GroupOnGrid';
+import ListImages from './ListImages';
 
 import './imageGrid.scss'
 
-type ImageObjectType = {
-  contentSize: number,
-  contentUrl: string,
-  height: number,
-  width: number,
-  idimageObject: number,
-  thumbnail: string
-}
-
-export default function ImageGrid({apiHost, keywords}) 
+export default function ImageGrid({apiHost}) 
 {
   const search = window.location.search;
-  const params = new URLSearchParams(search);
-  
+  const params = new URLSearchParams(search);  
   const limit = params.get('limit') ?? 40;
-  const offset = params.get('offset') ?? 0;
+  const offset = params.get('offset') ?? 0; 
+  const listBy = params.get('listBy') ?? null
+  const keyword = params.get('keyword') ?? null
 
-  const [ numberOfItems, setNumberOfItems ] = useState(0);
-  const [ images, setImages ] = useState([]);
-
-  useEffect(() => {
-    axios.get(apiHost+`/imageObject?fields=count(*) as q`)
-    .then(response => {
-      setNumberOfItems(response.data[0].q);
-    })
-  },[])
-
-  useEffect(() => {
-    axios.get(apiHost+`/imageObject?limit=${limit}&offset=${offset}&orderBy=uploadDate desc`)
-    .then(response => {
-      setImages(response.data);
-    } )
-  },[keywords])
+  const { images, numberOfItems } = useImageObject(apiHost, limit, offset, listBy, keyword);
 
   return (
     <div className='imageGrid'>
-
-      <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset}/>
-      
-      <div id='imageGrid-container' className='imageGrid-container'>
-
-        {images.map((item: ImageObjectType) => {
-
-          const idimageObject = item.idimageObject;
-          
-          return <FigureOnGrid key={idimageObject} item={item} apiHost={apiHost} />
-          
-        })}
-      </div>
+        {listBy && !keyword
+          ? <GroupOnGrid listBy={listBy} images={images} />
+          : <ListImages numberOfItems={numberOfItems} limit={limit} offset={offset} apiHost={apiHost} images={images} listBy={listBy} keyword={keyword} />
+        }
     </div>
   )
 }

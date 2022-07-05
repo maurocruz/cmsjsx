@@ -22,10 +22,19 @@
       border: rgba(255, 255, 255, 0.5) solid 1px;
       border-radius: 6px;
       padding: 0 3px;
+      background-color: transparent;
+      color: #d7d7d9;
+      cursor: pointer;
+      margin: 0 3px;
     }
     .pageNavigation-ward {
       vertical-align: middle;
       font-size: 1.6em;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      color: #d7d7d9;
+      cursor: pointer;
     }
   }
 }

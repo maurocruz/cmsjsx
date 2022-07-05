@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { Icon } from '@iconify/react';
 import PageNumbering from "./PageNumbering";
 
 import './pageNavigation.scss';
@@ -19,11 +18,17 @@ export default function PageNavigation({numberOfItems, limit, offset})
   if(lastRangePage > numberOfPages) lastRangePage = numberOfPages;
   const lastOffset = (numberOfPages * limit) - limit;
 
-  const textCountPages = `Showing ${limit} on page ${activedPage} of ${numberOfItems} occurrences in ${numberOfPages} pages.`;
+  const textCountPages = numberOfItems < 20 
+    ? `Showing ${numberOfItems} occurrences`
+    : `Showing ${limit} on page ${activedPage} of ${numberOfItems} occurrences in ${numberOfPages} pages.`;
 
   function handleSubmit() {
     if (selectForm.current) {
-      selectForm.current.submit()
+      const value = selectForm.current.limit.value;
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.delete('limit');
+      searchParams.append('limit',value);
+      window.location.href = location.origin+location.pathname+"/?"+searchParams.toString();
     }
   }
 
@@ -31,18 +36,20 @@ export default function PageNavigation({numberOfItems, limit, offset})
     <div className="pageNavigation">
       <div className="pageNavigation-countPages">{textCountPages}</div>
 
-			<form ref={selectForm} className="pageNavigation-selectLimit" action="" method="get">
-				<input type="hidden" name="offset" value={offset}/>
-				<select name="limit" onChange={handleSubmit}>
-          <option value={limit}>{limit}</option>
-          <option value="20">20</option>
-          <option value="40">40</option>
-          <option value="80">80</option>
-          <option value="120">120</option>
-          <option value="160">160</option>
-          <option value="200">200</option>
-        </select>
-			</form>
+      {numberOfItems > 20 &&
+        <form ref={selectForm} className="pageNavigation-selectLimit" action="" method="get">
+          <input type="hidden" name="offset" value={offset}/>
+          <select name="limit" onChange={handleSubmit}>
+            <option value={limit}>{limit}</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+            <option value="80">80</option>
+            <option value="120">120</option>
+            <option value="160">160</option>
+            <option value="200">200</option>
+          </select>
+        </form>
+      }
 
       {numberOfPages > 1 && 
         <PageNumbering 

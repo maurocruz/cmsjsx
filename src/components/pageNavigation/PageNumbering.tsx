@@ -1,11 +1,10 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 
-const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numberOfPages, lastOffset}) => {
-    
+const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numberOfPages, lastOffset}) => 
+{    
   const buttons = new Array();
 
-  const href = `?limit=${limit}`;
   let i = 0;
 
   // FULL BACKWARD
@@ -64,11 +63,20 @@ const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numbe
     })
   }
 
+  function handleOnClik(offset) {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.delete('limit');
+    searchParams.delete('offset');
+    searchParams.set('limit',limit);
+    searchParams.set('offset', offset);
+    window.location.href = location.origin+location.pathname+"/?"+searchParams.toString();
+  }
+
   return (
     <nav className="pageNavigation-numbering">
       {buttons.map(item => {          
         return (
-          <a key={item.key} href={href+"&offset="+item.offsetItem} className={item.class} style={item.style}>{item.value}</a>
+          <button key={item.key} onClick={() => handleOnClik(item.offsetItem)} className={item.class} style={item.style}>{item.value}</button>
         )
       })}
     </nav>
