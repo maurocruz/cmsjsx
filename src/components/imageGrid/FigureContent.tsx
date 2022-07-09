@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import axios from "axios";
+import useIntersectionObserver from "../../Hooks/useIntersectionObserver/useIntersectionObserver";
 
-export default function FigureOnGrid({item, apiHost}) 
+export default function FigureContent({item, apiHost}) 
 {
   const idimageObject = item.idimageObject; 
   const thumbnail = item.thumbnail;
@@ -21,6 +22,12 @@ export default function FigureOnGrid({item, apiHost})
 
   const [ countParts, setCountParts ] = useState<number | string>('?');
 
+  const aspectRatio = (height/width) * 100;
+
+  // OBSERVA SE VISIVEL
+  const { isVisible } = useIntersectionObserver(figureRef.current);
+  
+  // COUNT HOW MANY TIMES THIS IMAGE IS REFERENCED
   useEffect(() => {
     axios.get(apiHost+`/imageObject?isPartOf=${idimageObject}`)
     .then(response => {
@@ -29,40 +36,42 @@ export default function FigureOnGrid({item, apiHost})
       console.log(error);
     })
   },[])
-
+  
   // THUMBNAIL
-  const image = new Image();
-  image.src = thumbnail;  
-  image.onload = () => {
-   setSrc(image.src);
-   if (imgRef.current) { 
-    setSpanGrid(imgRef.current.offsetHeight + 40);   
-   }
-  }
-
-  // THUMBNAIL NOT EXISTS
-  image.onerror = () => {
-    // ORIGINAL IMAGE
-    const imageOriginal = new Image();
-    imageOriginal.src = contentUrl;
-    imageOriginal.onload = () => {
-      setSrc(imageOriginal.src);
-      if (imgRef.current) { 
-       setSpanGrid(imgRef.current.offsetHeight + 40);
-       setWidth(imageOriginal.width);
-       setHeight(imageOriginal.height);
-      }
+  if (isVisible) {
+    const image = new Image();
+    image.src = thumbnail ?? contentUrl;  
+    image.onload = () => {
+    setSrc(image.src);
+    if (imgRef.current) {
+      setSpanGrid(imgRef.current.offsetHeight + 40);
     }
-    // ORIGINAL IMAGE NOT EXISTS
-    imageOriginal.onerror = () => {
-      setImageBroken(true);
+    }
+
+    // THUMBNAIL NOT EXISTS
+    image.onerror = () => {
+      // ORIGINAL IMAGE
+      const imageOriginal = new Image();
+      imageOriginal.src = contentUrl;
+      imageOriginal.onload = () => {
+        setSrc(imageOriginal.src);
+        if (imgRef.current) { 
+          setSpanGrid(imgRef.current.offsetHeight + 40);
+          setWidth(imageOriginal.width);
+          setHeight(imageOriginal.height);
+        }
+      }
+      // ORIGINAL IMAGE NOT EXISTS
+      imageOriginal.onerror = () => {
+        setImageBroken(true);
+      }
     }
   }
 
   return (
-    <figure ref={figureRef} className='imageGrid-figure' style={{ gridRowEnd: 'span '+spanGrid }}>
+    <figure ref={figureRef} className='imageGrid-figure' style={{ gridRowEnd: 'span '+spanGrid }}>     
       
-      {src 
+      {src && isVisible
         ? <a href={href}><img ref={imgRef} src={src} /></a>
         : imageBroken 
           ? <a href={href}><Icon className="imageGrid-figure-imageBroken" icon="ic:round-broken-image" /></a> 

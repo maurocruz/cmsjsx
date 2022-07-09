@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import useImageObject from '../../Hooks/useImageObject/useImageObject';
 import GroupOnGrid from './GroupOnGrid';
-import ListImages from './ListImages';
+import ImagesContainer from './ImagesContainer';
 
 import './imageGrid.scss'
 
@@ -21,7 +21,7 @@ export default function ImageGrid({apiHost})
     <div className='imageGrid'>
         {listBy && !keyword
           ? <GroupOnGrid listBy={listBy} images={images} />
-          : <ListImages numberOfItems={numberOfItems} limit={limit} offset={offset} apiHost={apiHost} images={images} listBy={listBy} keyword={keyword} />
+          : <ImagesContainer numberOfItems={numberOfItems} limit={limit} offset={offset} apiHost={apiHost} images={images} listBy={listBy} keyword={keyword} />
         }
     </div>
   )

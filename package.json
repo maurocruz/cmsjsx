@@ -6,8 +6,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-lazy-load-image-component": "^1.5.4"
+    "react-dom": "^16.14.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

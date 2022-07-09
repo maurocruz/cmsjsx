@@ -28,7 +28,7 @@ export default function PageNavigation({numberOfItems, limit, offset})
       const searchParams = new URLSearchParams(location.search);
       searchParams.delete('limit');
       searchParams.append('limit',value);
-      window.location.href = location.origin+location.pathname+"/?"+searchParams.toString();
+      window.location.href = location.origin+location.pathname+"?"+searchParams.toString();
     }
   }
 

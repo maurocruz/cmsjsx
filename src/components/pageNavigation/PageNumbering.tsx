@@ -69,7 +69,7 @@ const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numbe
     searchParams.delete('offset');
     searchParams.set('limit',limit);
     searchParams.set('offset', offset);
-    window.location.href = location.origin+location.pathname+"/?"+searchParams.toString();
+    window.location.href = location.origin+location.pathname+"?"+searchParams.toString();
   }
 
   return (

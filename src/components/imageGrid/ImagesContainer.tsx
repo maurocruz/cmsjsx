@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import React, { Fragment } from "react";
 import PageNavigation from "../pageNavigation/PageNavigation";
-import FigureOnGrid from "./FigureOnGrid";
+import FigureContent from "./FigureContent";
 
 type ImageObjectType = {
   contentSize: number,
@@ -12,7 +12,7 @@ type ImageObjectType = {
   thumbnail: string
 }
 
-export default function ListImages({numberOfItems, limit, offset, images, apiHost, listBy, keyword}) 
+export default function ImagesContainer({numberOfItems, limit, offset, images, apiHost, listBy, keyword}) 
 {
   function _backHistory() {
     window.location.href = `?listBy=${listBy}`;
@@ -32,7 +32,7 @@ export default function ListImages({numberOfItems, limit, offset, images, apiHos
       <div id='imageGrid-container' className='imageGrid-container'>
         {images.map((item: ImageObjectType) => {
           const idimageObject = item.idimageObject;
-          return <FigureOnGrid key={idimageObject} item={item} apiHost={apiHost} />
+          return <FigureContent key={idimageObject} item={item} apiHost={apiHost} />
         })}
       </div>
     </Fragment>
