@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import ImageGrid from '../src/components/imageGrid/ImageGrid'
+import { ImageGrid } from './components/index'
 
 const target = document.getElementById('imageGrid');
 const apiHost = target.getAttribute('data-apiHost');

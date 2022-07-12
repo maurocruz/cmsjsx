@@ -11,7 +11,7 @@ const app = new App();
 app.formSearch(); // form search auto complete
 
 // IMAGES FORMS
-app.Imagesfromdatabase(); // images from database
+app.Imagesfromdatabase(hostApi, folder); // images from database
 app.Imagesfromserver(); // images from server
 
 // ADD EXISTENT

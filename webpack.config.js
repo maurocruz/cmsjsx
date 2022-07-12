@@ -42,7 +42,12 @@ module.exports = {
     ]
   },
   resolve: { 
-    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"] 
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+    alias: {
+      '@components': path.resolve(__dirname, "./src/components"),
+      '@hooks': path.resolve(__dirname,"./src/hooks"),
+      '@services': path.resolve(__dirname,"./src/services")
+    }    
   },
   output: {
     path: path.resolve(__dirname,"dist"),

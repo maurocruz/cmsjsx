@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import api from '../../service/Api';
+import api from '../../services/Api';
 
 interface itemList {
     itemListElement: [];
@@ -27,14 +27,15 @@ interface imageObject {
 
 const Imagesfromdatabase = (props: any) => {
     const target = props.target;
-    const imageOk = folder+"/images/ok_64x64.png";
+    const hostApi = props.hostApi;
+    const imageOk = props.folder+"/images/ok_64x64.png";
     
     const [listGroups, setListGroups] = useState([]);
     const [numberOfGroups, setNumberOfGroups] = useState('');
     const [imageWidth, setImageWidth] = useState(Number);
 
     useEffect(() => {
-        api.get<itemList>(`${hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList&fields=distinct(keywords)`).then(response => {
+        api.get<itemList>(`${hostApi}/imageObject?groupBy=keywords&orderBy=keywords&format=ItemList&fields=distinct(keywords)`).then(response => {
             setNumberOfGroups(response.data.numberOfItems);
             setListGroups(response.data.itemListElement);
         })
@@ -73,8 +74,10 @@ const Imagesfromdatabase = (props: any) => {
         let itemListElement = itemsList.itemListElement;
 
         function activeCheckbox(event: React.MouseEvent) {
-            const target = event.currentTarget.previousElementSibling
-            target.setAttribute('checked','1');
+            if (event.currentTarget.previousElementSibling) {
+                const target = event.currentTarget.previousElementSibling
+                target.setAttribute('checked','1');
+            }
         }
 
         return (
@@ -86,7 +89,7 @@ const Imagesfromdatabase = (props: any) => {
                 <div className="admin-images-grid">
                     {itemListElement.map((listItem: { item: imageObject, position: number })  => {
                         const item = listItem.item;
-                        const id = item.identifier.name == 'id' ? item.identifier.value : null;   
+                        const id = item.identifier.name == 'id' ? item.identifier.value : 0;   
                         const imageSrc = item.thumbnail;
                         const w = item.width;
                         const h = item.height;
@@ -121,7 +124,7 @@ const Imagesfromdatabase = (props: any) => {
     }
 
     function showImages(keywords: string) {
-        api.get(`${hostApi}imageObject?keywords=${keywords}&format=ItemList&properties=*&limit=none&orderBy=uploadDate&ordering=desc&thumbnail=on`).then(response => {
+        api.get(`${hostApi}/imageObject?keywords=${keywords}&format=ItemList&properties=*&limit=none&orderBy=uploadDate&ordering=desc&thumbnail=on`).then(response => {
             const element = images(keywords,response.data);
             ReactDOM.render(element, target);
         });

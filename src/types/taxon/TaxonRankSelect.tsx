@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import api from '../../service/Api';
+import { Api } from '@services';
 
 interface itemList {
     name: string,
@@ -26,7 +26,7 @@ const TaxonRankSelect = (props: any) => {
     const [parentTaxonList, setParentTaxonList] = useState([]);
 
     useEffect(() => {        
-        api.get(`taxon?taxonRank=${taxonRankParent}&orderBy=name`).then(response => {
+        Api.get(`taxon?taxonRank=${taxonRankParent}&orderBy=name`).then(response => {
             if (response.data.message !== "No data founded") {
                 setParentTaxonList(response.data);
             } else {

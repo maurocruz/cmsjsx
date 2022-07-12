@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import axios from "axios";
-import useIntersectionObserver from "../../Hooks/useIntersectionObserver/useIntersectionObserver";
+import { useIntersectionObserver } from '@hooks'
 
-export default function FigureContent({item, apiHost}) 
+export default function FigureContent({children = null,item}) 
 {
   const idimageObject = item.idimageObject; 
   const thumbnail = item.thumbnail;
@@ -29,7 +29,7 @@ export default function FigureContent({item, apiHost})
   
   // COUNT HOW MANY TIMES THIS IMAGE IS REFERENCED
   useEffect(() => {
-    axios.get(apiHost+`/imageObject?isPartOf=${idimageObject}`)
+    axios.get(global.apiHost+`/imageObject?isPartOf=${idimageObject}`)
     .then(response => {
       setCountParts(response.data.length);
     }).catch(error => {
@@ -44,7 +44,9 @@ export default function FigureContent({item, apiHost})
     image.onload = () => {
     setSrc(image.src);
     if (imgRef.current) {
-      setSpanGrid(imgRef.current.offsetHeight + 40);
+      setSpanHeight();
+      setWidth(image.width);
+      setHeight(image.height);
     }
     }
 
@@ -56,7 +58,7 @@ export default function FigureContent({item, apiHost})
       imageOriginal.onload = () => {
         setSrc(imageOriginal.src);
         if (imgRef.current) { 
-          setSpanGrid(imgRef.current.offsetHeight + 40);
+          setSpanHeight();
           setWidth(imageOriginal.width);
           setHeight(imageOriginal.height);
         }
@@ -68,22 +70,35 @@ export default function FigureContent({item, apiHost})
     }
   }
 
+  function setSpanHeight() {
+    const figcaption = figureRef.current.lastChild as HTMLElement;
+    const imgHeight = imgRef.current.offsetHeight;
+    let spanHeight = imgRef.current.offsetHeight + 40;
+
+    if (figcaption.tagName == 'FIGCAPTION') {
+      spanHeight = figcaption.offsetHeight + imgHeight + 10;
+    }
+
+    setSpanGrid(spanHeight);
+
+  }
+
   return (
     <figure ref={figureRef} className='imageGrid-figure' style={{ gridRowEnd: 'span '+spanGrid }}>     
       
       {src && isVisible
-        ? <a href={href}><img ref={imgRef} src={src} /></a>
+        ? <a href={href}><img ref={imgRef} src={src} /><p className="imageGrid-image-label">{width} x {height}</p></a>
         : imageBroken 
           ? <a href={href}><Icon className="imageGrid-figure-imageBroken" icon="ic:round-broken-image" /></a> 
           : <Icon className="imageGrid-figure-loading" icon="eos-icons:loading" />
       }
 
-      <figcaption>
-        <a href={href} className="imageGrid-edit"><Icon icon="fa-solid:edit" /></a>
-        <span className="imageGrid-measures">{width} x {height}</span>
-        <span className="imageGrid-countParts"><b style={{color: 'green'}}>{countParts}</b></span>
-        <span className="imageGrid-selected"><input type="checkbox" name="idImageObject[]" value={idimageObject}/></span>
-      </figcaption>
+      {children ??
+        <figcaption>
+          <a href={href} className="imageGrid-edit"><Icon icon="fa-solid:edit" /></a>
+          <span className="imageGrid-countParts"><b style={{color: 'green'}}>{countParts}</b></span>
+        </figcaption>
+      }
 
     </figure>
   )

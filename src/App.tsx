@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import Imagesfromdatabase from './types/imageObject/Imagesfromdatabase';
+import { ImagesFromDatabase } from '@components';
 import Imagesfromserver from './types/imageObject/Imagesfromserver';
 import FormSearch from './components/formSearch/FormSearch';
 import AddExistent from './components/addExistent/AddExistent';
@@ -25,8 +25,8 @@ class App extends Component
     }
 
     // get images on data base
-    Imagesfromdatabase() {
-        this.getObjectByClassName("imagesfromdatabase",<Imagesfromdatabase/>);
+    Imagesfromdatabase(hostApi: string, folder: string) {
+        this.getObjectByClassName("imagesfromdatabase",<ImagesFromDatabase hostApi={hostApi} folder={folder}/>);
     }
 
     // select image on server - ### UNDER DEVELOPMENT ###
