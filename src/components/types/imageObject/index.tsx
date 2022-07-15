@@ -1,4 +1,5 @@
 import ImageGroups from "./ImageGroups/ImageGroups";
-import ImageGrid from "./ImageGrid/ImageGrid";
+import ImageObject from './ImageObject';
 
-export { ImageGroups, ImageGrid }
+export { ImageGroups }
+export default ImageObject;

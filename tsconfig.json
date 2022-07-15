@@ -32,8 +32,10 @@
     "baseUrl": ".",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@components": ["src/components/index.tsx"],
+      "@components/icons": ["src/components/icons/index.tsx"],
       "@hooks": ["src/hooks/index.tsx"],
-      "@services": ["src/services/index.tsx"]
+      "@services": ["src/services/index.tsx"],
+      "@contexts": ["src/contexts/index.tsx"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

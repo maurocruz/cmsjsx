@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useIntersectionObserver } from '@hooks'
 
-export default function FigureContent({children = null,item}) 
+export default function FigureContent({children = null, item, isPartOf = false}) 
 {
   const idimageObject = item.idimageObject; 
   const thumbnail = item.thumbnail;
@@ -15,27 +15,27 @@ export default function FigureContent({children = null,item})
   const imgRef = useRef<HTMLImageElement>(null);
 
   const [ src, setSrc ] = useState('');
-  const [ spanGrid, setSpanGrid ] = useState(200);
+  const [ spanGrid, setSpanGrid ] = useState(150);
   const [ height, setHeight ] = useState(item.height);
   const [ width, setWidth ] = useState(item.width);
   const [ imageBroken, setImageBroken ] = useState(false);
 
-  const [ countParts, setCountParts ] = useState<number | string>('?');
-
-  const aspectRatio = (height/width) * 100;
+  const [ countParts, setCountParts ] = useState('?');
 
   // OBSERVA SE VISIVEL
   const { isVisible } = useIntersectionObserver(figureRef.current);
   
   // COUNT HOW MANY TIMES THIS IMAGE IS REFERENCED
   useEffect(() => {
-    axios.get(global.apiHost+`/imageObject?isPartOf=${idimageObject}`)
-    .then(response => {
-      setCountParts(response.data.length);
-    }).catch(error => {
-      console.log(error);
-    })
-  },[])
+    if (isPartOf) {
+      axios.get(global.apiHost+`/imageObject?isPartOf=${idimageObject}`)
+      .then(response => {
+        setCountParts(response.data.length);
+      }).catch(error => {
+        console.log(error);
+      })
+    }
+  },[isPartOf])
   
   // THUMBNAIL
   if (isVisible) {
@@ -72,7 +72,7 @@ export default function FigureContent({children = null,item})
 
   function setSpanHeight() {
     const figcaption = figureRef.current.lastChild as HTMLElement;
-    const imgHeight = imgRef.current.offsetHeight;
+    const imgHeight = imgRef.current.offsetHeight;    
     let spanHeight = imgRef.current.offsetHeight + 40;
 
     if (figcaption.tagName == 'FIGCAPTION') {
@@ -80,7 +80,6 @@ export default function FigureContent({children = null,item})
     }
 
     setSpanGrid(spanHeight);
-
   }
 
   return (

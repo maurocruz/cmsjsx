@@ -1,8 +1,15 @@
 import React from "react";
 import { Icon } from "@iconify/react";
+import { IconBackward, IconForward, IconForwardStep } from "@components/icons";
 
-const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numberOfPages, lastOffset}) => 
-{    
+const PageNumbering = ({activedPage, exposedPages, numberOfPages, limit, offset, setOffset}) => 
+{
+  const range = Math.floor((offset / limit) / exposedPages);
+  const firstRangePage = range == 0 ? 1: range * exposedPages +1;
+  let lastRangePage = firstRangePage + exposedPages - 1;
+  if(lastRangePage > numberOfPages) lastRangePage = numberOfPages;
+  const lastOffset = (numberOfPages * limit) - limit;
+
   const buttons = new Array();
 
   let i = 0;
@@ -11,7 +18,7 @@ const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numbe
   if (firstRangePage !== 1) {
     buttons.push({
       key:"backward",
-      value: <Icon icon="zondicons:backward" />,
+      value: <IconBackward />,
       offsetItem: 0,
       class: 'pageNavigation-ward pageNavigation-backward'
     })
@@ -47,7 +54,7 @@ const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numbe
   if (lastRangePage < numberOfPages ) {
     buttons.push({
       key: "forwaedStep",
-      value: <Icon icon="zondicons:forward-step" />,
+      value: <IconForwardStep />,
       offsetItem: forwardOffset,
       class: 'pageNavigation-ward pageNavigation-forwardStep'
     })
@@ -57,26 +64,22 @@ const PageNumbering = ({limit, firstRangePage, lastRangePage, activedPage, numbe
   if (lastRangePage !== numberOfPages) {
     buttons.push({
       key: "forward",
-      value: <Icon icon="zondicons:forward" />,
+      value: <IconForward />,
       offsetItem: lastOffset,
       class: 'pageNavigation-ward pageNavigation-forward'
     })
   }
 
-  function handleOnClik(offset) {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.delete('limit');
-    searchParams.delete('offset');
-    searchParams.set('limit',limit);
-    searchParams.set('offset', offset);
-    window.location.href = location.origin+location.pathname+"?"+searchParams.toString();
+  function handleOnClik(e,offset: number) {
+    setOffset(offset);
+    e.preventDefault();
   }
 
   return (
     <nav className="pageNavigation-numbering">
       {buttons.map(item => {          
         return (
-          <button key={item.key} onClick={() => handleOnClik(item.offsetItem)} className={item.class} style={item.style}>{item.value}</button>
+          <button key={item.key} onClick={(e) => handleOnClik(e,item.offsetItem)} className={item.class} style={item.style}>{item.value}</button>
         )
       })}
     </nav>

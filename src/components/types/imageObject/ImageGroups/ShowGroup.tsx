@@ -2,11 +2,11 @@
 import React, { Fragment, useState } from "react";
 import { Icon } from '@iconify/react';
 
-import { useImageObject } from "@hooks";
 import { PageNavigation } from "@components";
 
 import FigureContent from "../ImageGrid/FigureContent";
 import ListGroups from "./ListGroups";
+import { useImageObject } from "@hooks";
 
 
 type ImageObjectType = {
@@ -21,12 +21,9 @@ type ImageObjectType = {
 
 export default function ShowGroup({groupName}) 
 {
-  const limit = 40;
-  const offset = 0;
-
   const [ showGroups, setShowGroups ] = useState(false);
 
-  const { images, numberOfItems } = useImageObject(limit, offset, 'keywords', groupName);
+  const { images, numberOfItems, limit, offset, setLimit, setOffset, itemsOnDisplay } = useImageObject({listBy: 'keyword', keywords: groupName});
 
   function activeCheckbox(event: React.MouseEvent) {
     if (event.currentTarget.previousElementSibling) {
@@ -44,7 +41,14 @@ export default function ShowGroup({groupName})
             <button className="button" onClick={() => setShowGroups(true)} type="button">Voltar</button> 
             <p>{numberOfItems} itens - grupo {groupName}</p>
 
-            <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset}/>
+            <PageNavigation 
+              numberOfItems={numberOfItems}
+              itemsOnDisplay={itemsOnDisplay} 
+              limit={limit} 
+              offset={offset} 
+              setLimit={setLimit} 
+              setOffset={setOffset} 
+            />
 
             <div className="imageGrid-container">
               {images.map((item: ImageObjectType)  => {

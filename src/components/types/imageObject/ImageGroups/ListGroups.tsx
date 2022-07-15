@@ -4,6 +4,7 @@ import { useImageGroups } from "@hooks";
 
 import ImageGroups from './ImageGroups';
 import ShowGroup from "./ShowGroup";
+import { IconLoading } from "@components/icons"
 
 
 interface listItem {
@@ -36,26 +37,33 @@ export default function ListGroups()
   function handleShowImages(item) 
   {
     setGroupName(item);
-    setShowImages(true)    
+    setShowImages(true);      
   }
 
   return (
     <Fragment>
       {showImages 
-        ? <ShowGroup groupName={groupName}  />
+        
+        ? <ShowGroup groupName={groupName} /> // mostra as imagens do grup
+
         : showIndex
-          ? <ImageGroups/>
+          
+          ? <ImageGroups /> //botao inicial
+
           : <div className="imageGroups-list">
-              <p>Mostrando {numberOfGroups} grupos no banco de imagens</p>   
+              <p>Mostrando {numberOfGroups} grupos no banco de imagens</p>  
 
               <button className="button" onClick={() => setShowIndex(true)} type="button">Voltar</button> 
 
-              {listGroups.map((items: listItem) => (                
+              {listGroups 
+               ? listGroups.map((items: listItem) => (                
                   <button key={items.position} className="button" onClick={() => handleShowImages(items.item.keywords)} type="button">
                     {items.item.keywords == "" || items.item.keywords == null ? "Geral" : items.item.keywords}
                   </button>
-                ))  
-              }
+                ))
+                : <IconLoading />
+              }  
+      
             </div>
       }
     </Fragment>

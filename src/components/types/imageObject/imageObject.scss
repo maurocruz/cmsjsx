@@ -1,4 +1,4 @@
-.imageGrid {
+.imageObjectContainer {
   background-color: #444444;
   color: #d7d7d9;
   font-family: sans-serif;
@@ -28,13 +28,13 @@
       }
 
       .imageGrid-figure-loading {
-        font-size: 4em;
-        height: 150px;
+        font-size: 56px;
+        height: 100px;
       }
 
       .imageGrid-figure-imageBroken {
-        font-size: 8em;
-        height: 150px;
+        font-size: 110px;
+        height: 1em;
         color: #D7D7D9;
       }
 
@@ -57,6 +57,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        padding: 5px;
 
         .imageGrid-edit {
           font-size: 1.2em;
@@ -75,36 +76,48 @@
     }
   }
 
-  .imageGrid-groupList {
+  .imageGroup {
 
     a {
       color: #D7D7D9;
     }
 
-    .imageGrid-groupList-list {
+    .imageGroup-list {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 0;
+      padding: 0;
     }
 
-    .imageGrid-groupList-item {
+    .imageGroup-list-item {
       display: inline-block;
       margin: 5px;
     }
 
-    .imageGrid-groupList-figure {
+    .imageGroup-list-figure {
       line-height: normal;
       background-image: url('https://plinct.com.br/App/static/cms/images/folder_120w.png');
       padding: 17px 5px 0;
       background-repeat: no-repeat;
       width: 110px;
+      min-height: 100px;
       margin: 0;
+      text-align: center;
+      cursor: pointer;
 
       img {
         width: 110px;
         height: 75px;
         border-radius: 5px;
         margin-bottom: 3px;
+      }
+      .imageGroup-list-loading, 
+      .imageGroup-list-broken {
+        color: #444444;
+        font-size: 3em;
+        height: 75px;
       }
     }
   }

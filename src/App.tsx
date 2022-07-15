@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { ImagesFromDatabase } from '@components';
+import { ImageGroups } from '@components';
 import Imagesfromserver from './types/imageObject/Imagesfromserver';
 import FormSearch from './components/formSearch/FormSearch';
 import AddExistent from './components/addExistent/AddExistent';
@@ -26,7 +26,7 @@ class App extends Component
 
     // get images on data base
     Imagesfromdatabase(hostApi: string, folder: string) {
-        this.getObjectByClassName("imagesfromdatabase",<ImagesFromDatabase hostApi={hostApi} folder={folder}/>);
+        this.getObjectByClassName("imagesfromdatabase",<ImageGroups/>);
     }
 
     // select image on server - ### UNDER DEVELOPMENT ###

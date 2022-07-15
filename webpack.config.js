@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
   entry: {
     index: "./src/index.js",
-    imageGrid: "./src/imageGrid.js"
+    imageObject: "./src/imageObject.js"
   },
   mode: "development",
   module: {
@@ -45,8 +45,10 @@ module.exports = {
     extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
     alias: {
       '@components': path.resolve(__dirname, "./src/components"),
+      '@components/icons': path.resolve(__dirname, "./src/components/icons"),
       '@hooks': path.resolve(__dirname,"./src/hooks"),
-      '@services': path.resolve(__dirname,"./src/services")
+      '@services': path.resolve(__dirname,"./src/services"),
+      '@contexts': path.resolve(__dirname,"./src/contexts"),
     }    
   },
   output: {
