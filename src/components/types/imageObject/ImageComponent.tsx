@@ -20,12 +20,18 @@ export default function ImageComponent({contentUrl, thumbnail = null, alt = null
     }
     image.src = src;
 
+
     image.onerror = () => {
       if (thumbnail) {
         image.src = contentUrl;
         image.onload = () => {
           setSrc(image.src);
         }
+
+        image.onerror = () => {
+          setBroken(true);
+        }
+
       } else {
         setBroken(true);
       }
