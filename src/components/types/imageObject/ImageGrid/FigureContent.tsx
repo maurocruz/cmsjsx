@@ -28,7 +28,7 @@ export default function FigureContent({children = null, item, isPartOf = false})
   // COUNT HOW MANY TIMES THIS IMAGE IS REFERENCED
   useEffect(() => {
     if (isPartOf) {
-      axios.get(global.apiHost+`/imageObject?isPartOf=${idimageObject}`)
+      axios.get(global.apiHost+`imageObject?isPartOf=${idimageObject}`)
       .then(response => {
         setCountParts(response.data.length);
       }).catch(error => {

@@ -57,7 +57,7 @@ const FormSearch = (props: any) => {
     useEffect(() => {
         if (keyPress.length > 1) {
             let baseurl = `${type}?format=ItemList&properties=name&${like}Like=${keyPress}`;
-            axios.get<ItemList>(hostApi + baseurl).then(response => {
+            axios.get<ItemList>(globalThis.hostApi + baseurl).then(response => {
                 if (response.data.numberOfItems > 0) {
                     setItemList(response.data.itemListElement);
                 } else {

@@ -7,23 +7,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Plinct CMS</title>
-  <script>window.apiHost = "https://plinct.com.br/api"; window.staticFolder = "/App/static/cms/";</script>
+  <script>window.apiHost = "https://pirenopolis.local/api"; window.staticFolder = "/App/static/cms/";</script>
 </head>
 
 <body>
 
-  <!-- IMAGES FROM DATABASE -->
+  <!-- IMAGES FROM DATABASE
   <form action="/admin/imageObject/new" name="imagesFromDatabase" class="formPadrao box" method="post">
     <input name="tableHasPart" type="hidden" value="event"/>
     <input name="idHasPart" type="hidden" value="2303"/>
     <div class="imagesfromdatabase"></div>
   </form>
-  <script src="../dist/index.bundle.js"></script>
+  <script src="../dist/index.bundle.js"></script> -->
 
-  <!-- IMAGES GRID -->
+  <!-- IMAGES GRID 
     <div id="imageGrid"></div>  
-    <script src="../dist/imageObject.bundle.js"></script>
+    <script src="../dist/imageObject.bundle.js"></script> -->
+
+  <!-- NAVBAR SEARCH -->
+    <div class="navbar-search" data-type="localBusiness" data-action="/admin/localBusiness/search" data-searchby="name" data-params="" data-linklist=""></div>
   
+    <script src="../dist/index.bundle.js"></script> 
   
 </body>
 
