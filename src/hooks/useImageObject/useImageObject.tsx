@@ -52,7 +52,7 @@ export default function useImageObject(props = {listBy: null, keywords: null })
           ? `orderBy=uploadDate desc&keywordsLike=${keywords}`
           : `orderBy=uploadDate desc`;
 
-    axios.get(globalThis.apiHost+`/imageObject?${queryCount}`)
+    axios.get(globalThis.apiHost+`imageObject?${queryCount}`)
       .then(response => {
         const noi = response.data[0].countItems;
         setNumberOfItems(response.data[0].countItems);
@@ -64,7 +64,7 @@ export default function useImageObject(props = {listBy: null, keywords: null })
           setOffset(0);
         }        
 
-        axios.get(globalThis.apiHost+`/imageObject?limit=${limitQuery}&offset=${offsetQuery}&${query}`)
+        axios.get(globalThis.apiHost+`imageObject?limit=${limitQuery}&offset=${offsetQuery}&${query}`)
           .then(response => {
             setImages(response.data);
             setItemsOnDisplay(response.data.length);
