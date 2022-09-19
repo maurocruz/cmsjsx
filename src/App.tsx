@@ -25,7 +25,7 @@ class App extends Component
     }
 
     // get images on data base
-    Imagesfromdatabase(hostApi: string, folder: string) {
+    Imagesfromdatabase() {
         this.getObjectByClassName("imagesfromdatabase",<ImageGroups/>);
     }
 

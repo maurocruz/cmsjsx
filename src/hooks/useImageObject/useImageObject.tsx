@@ -14,7 +14,7 @@ export default function useImageObject(props = {listBy: null, keywords: null })
   const [ limit, setLimit ] = useState(paramsLimit);
   const [ offset, setOffset ] = useState(paramsOffset); 
   const [ listBy, setListBy ] = useState(paramslistBy ?? props.listBy);
-  const [ keywords, setKeywords ] = useState(paramsKeywords ?? props.keywords);
+  const [ keywords, setKeywords ] = useState(props.keywords ?? paramsKeywords);
   const [ itemsOnDisplay, setItemsOnDisplay ] = useState(0);
 
   const [ numberOfItems, setNumberOfItems ] = useState(0);
