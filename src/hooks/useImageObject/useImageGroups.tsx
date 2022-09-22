@@ -12,6 +12,7 @@ export default function useImageGroups()
   const [ numberOfGroups, setNumberOfGroups ] = useState('');
 
   useEffect(() => {
+    console.log(globalThis);
     Api.get<itemList>(`${globalThis.hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList&fields=distinct(keywords)`)
       .then(response => {
         setNumberOfGroups(response.data.numberOfItems);

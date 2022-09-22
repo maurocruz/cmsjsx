@@ -1,3 +1,4 @@
+import { ImageObject } from "@components";
 import { useImageObject } from "@hooks";
 import React, { createContext, Dispatch, SetStateAction } from "react";
 
@@ -16,7 +17,7 @@ const ImageObjectContext = createContext({} as {
   itemsOnDisplay: number
 });
 
-const ImageObjectProvider = ({children}) => 
+const ImageObjectProvider = () => 
 {  
   const search = window.location.search;
   const searchParams = new URLSearchParams(search);
@@ -40,7 +41,7 @@ const ImageObjectProvider = ({children}) =>
         itemsOnDisplay
       }}
     >
-      {children}
+      <ImageObject />
     </ImageObjectContext.Provider>
   )
 }

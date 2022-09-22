@@ -20,7 +20,6 @@ export default function ImagesContainer()
   
   return (
     <Fragment>
-
       <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} itemsOnDisplay={itemsOnDisplay} />
       
       <div id='imageGrid-container' className='imageGrid-container'>
@@ -29,6 +28,8 @@ export default function ImagesContainer()
           return <FigureContent key={idimageObject} item={item} isPartOf={true}/>
         })}
       </div>
+
+      <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} itemsOnDisplay={itemsOnDisplay} />
     </Fragment>
   )
 }

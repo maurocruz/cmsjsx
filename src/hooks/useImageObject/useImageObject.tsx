@@ -52,6 +52,7 @@ export default function useImageObject(props = {listBy: null, keywords: null })
           ? `orderBy=uploadDate desc&keywordsLike=${keywords}`
           : `orderBy=uploadDate desc`;
 
+          console.log(globalThis.apiHost);
     axios.get(globalThis.apiHost+`imageObject?${queryCount}`)
       .then(response => {
         const noi = response.data[0].countItems;
