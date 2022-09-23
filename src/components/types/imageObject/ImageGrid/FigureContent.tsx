@@ -16,8 +16,6 @@ export default function FigureContent({children = null, item, isPartOf = false})
 
   const [ src, setSrc ] = useState('');
   const [ spanGrid, setSpanGrid ] = useState(150);
-  const [ height, setHeight ] = useState(item.height);
-  const [ width, setWidth ] = useState(item.width);
   const [ imageBroken, setImageBroken ] = useState(false);
 
   const [ countParts, setCountParts ] = useState('?');
@@ -45,8 +43,6 @@ export default function FigureContent({children = null, item, isPartOf = false})
     setSrc(image.src);
     if (imgRef.current) {
       setSpanHeight();
-      setWidth(image.width);
-      setHeight(image.height);
     }
     }
 
@@ -59,8 +55,6 @@ export default function FigureContent({children = null, item, isPartOf = false})
         setSrc(imageOriginal.src);
         if (imgRef.current) { 
           setSpanHeight();
-          setWidth(imageOriginal.width);
-          setHeight(imageOriginal.height);
         }
       }
       // ORIGINAL IMAGE NOT EXISTS
@@ -86,7 +80,7 @@ export default function FigureContent({children = null, item, isPartOf = false})
     <figure ref={figureRef} className='imageGrid-figure' style={{ gridRowEnd: 'span '+spanGrid }}>     
       
       {src && isVisible
-        ? <a href={href}><img ref={imgRef} src={src} /><p className="imageGrid-image-label">{width} x {height}</p></a>
+        ? <a href={href}><img ref={imgRef} src={src} /><p className="imageGrid-image-label">{item.width} x {item.height}</p></a>
         : imageBroken 
           ? <a href={href}><Icon className="imageGrid-figure-imageBroken" icon="ic:round-broken-image" /></a> 
           : <Icon className="imageGrid-figure-loading" icon="eos-icons:loading" />
