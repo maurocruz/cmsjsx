@@ -11,8 +11,8 @@ export default function useImageObject(props = {listBy: null, keywords: null })
   const paramslistBy = searchParams.has('listBy') ? searchParams.get('listBy') : null;
   const paramsKeywords = searchParams.has('keywords') ? searchParams.get('keywords') : null;
 
-  const [ limit, setLimit ] = useState(paramsLimit);
-  const [ offset, setOffset ] = useState(paramsOffset); 
+  const [ limit, setLimit ] = useState<number>(paramsLimit);
+  const [ offset, setOffset ] = useState<number>(paramsOffset); 
   const [ listBy, setListBy ] = useState(paramslistBy ?? props.listBy);
   const [ keywords, setKeywords ] = useState(props.keywords ?? paramsKeywords);
   const [ itemsOnDisplay, setItemsOnDisplay ] = useState(0);
@@ -52,14 +52,14 @@ export default function useImageObject(props = {listBy: null, keywords: null })
           ? `orderBy=uploadDate desc&keywordsLike=${keywords}`
           : `orderBy=uploadDate desc`;
 
-          console.log(globalThis.apiHost);
     axios.get(globalThis.apiHost+`imageObject?${queryCount}`)
       .then(response => {
-        const noi = response.data[0].countItems;
+        const noi = parseInt(response.data[0].countItems);
         setNumberOfItems(response.data[0].countItems);
 
         let offsetQuery = offset;
         let limitQuery = limit;
+
         if (offset >= noi || limit >= noi) {
           offsetQuery = 0;
           setOffset(0);

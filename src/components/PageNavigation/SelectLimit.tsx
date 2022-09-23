@@ -6,7 +6,7 @@ export default function SelectLimit({limit, setLimit, offset})
   
   function handleSubmit() {
     if (selectForm.current) {
-      const value = selectForm.current.limit.value;
+      const value = parseInt(selectForm.current.limit.value);
       setLimit(value);
     }
   }

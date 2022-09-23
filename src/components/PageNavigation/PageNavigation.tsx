@@ -9,8 +9,6 @@ const exposedPages = 10;
 
 export default function PageNavigation({numberOfItems, itemsOnDisplay, limit, setLimit, offset, setOffset}) 
 {
-  //console.log(Math.ceil(numberOfItems / offset));
-
   const numberOfPages = Math.ceil(numberOfItems / limit);
   const activedPage = offset == 0 ? 1 : Math.floor((offset / limit) + 1);
 
