@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Icon } from "@iconify/react";
-import { IconBackward, IconForward, IconForwardStep } from "@components/icons";
+import { IconBackward, IconForward, IconForwardStep } from "@icons";
+import { AppContext } from "@contexts";
 
-const PageNumbering = ({activedPage, exposedPages, numberOfPages, limit, offset, setOffset}) => 
+const PageNumbering = ({activedPage, exposedPages, numberOfPages}: {
+  activedPage: number,
+  exposedPages: number,
+  numberOfPages: number
+}) => 
 {
+  const { offset, setOffset, limit } = useContext(AppContext);
+
+
   const range = Math.floor((offset / limit) / exposedPages);
   const firstRangePage = range == 0 ? 1: range * exposedPages +1;
   let lastRangePage = firstRangePage + exposedPages - 1;
@@ -70,7 +78,7 @@ const PageNumbering = ({activedPage, exposedPages, numberOfPages, limit, offset,
     })
   }
 
-  function handleOnClik(e,offset: number) {
+  function handleOnClik(e: any, offset: number) {
     setOffset(offset);
     e.preventDefault();
   }
@@ -79,7 +87,7 @@ const PageNumbering = ({activedPage, exposedPages, numberOfPages, limit, offset,
     <nav className="pageNavigation-numbering">
       {buttons.map(item => {          
         return (
-          <button key={item.key} onClick={(e) => handleOnClik(e,item.offsetItem)} className={item.class} style={item.style}>{item.value}</button>
+          <button key={item.key} onClick={(e) => handleOnClik(e, item.offsetItem)} className={item.class} style={item.style}>{item.value}</button>
         )
       })}
     </nav>

@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Icon } from '@iconify/react';
 
 import { PageNavigation } from "@components";
@@ -7,6 +7,7 @@ import { PageNavigation } from "@components";
 import FigureContent from "../ImageGrid/FigureContent";
 import ListGroups from "./ListGroups";
 import { useImageObject } from "@hooks";
+import AppContext, { ImageObjectContext } from "@contexts";
 
 
 type ImageObjectType = {
@@ -19,11 +20,15 @@ type ImageObjectType = {
   height: number
 }
 
-export default function ShowGroup({groupName}) 
-{
+export default function ShowGroup({groupName}: {
+  groupName: string
+}) {
+  const { setLimit, setOffset } = useContext(AppContext);
+  const { setKeywords } = useContext(ImageObjectContext);
+
   const [ showGroups, setShowGroups ] = useState(false);
 
-  const { images, numberOfItems, limit, offset, setLimit, setOffset, itemsOnDisplay } = useImageObject({listBy: 'keyword', keywords: groupName});
+  const { items, numberOfItems, itemsOnDisplay } = useImageObject();
 
   function activeCheckbox(event: React.MouseEvent) {
     if (event.currentTarget.previousElementSibling) {
@@ -32,26 +37,26 @@ export default function ShowGroup({groupName})
     }
   }
 
+  function handleGoBack() {
+    setShowGroups(true);
+    setKeywords(null);
+    setLimit(null);
+    setOffset(null);
+  }
+
   return (
     <Fragment>
       {showGroups
         ? <ListGroups />
         : <div className="imageGrid">
             <p>Selecionando imagens no banco de imagens</p>           
-            <button className="button" onClick={() => setShowGroups(true)} type="button">Voltar</button> 
+            <button className="button" onClick={handleGoBack} type="button">Voltar</button> 
             <p>{numberOfItems} itens - grupo {groupName}</p>
 
-            <PageNavigation 
-              numberOfItems={numberOfItems}
-              itemsOnDisplay={itemsOnDisplay} 
-              limit={limit} 
-              offset={offset} 
-              setLimit={setLimit} 
-              setOffset={setOffset} 
-            />
+            <PageNavigation numberOfItems={numberOfItems} itemsOnDisplay={itemsOnDisplay} />
 
             <div className="imageGrid-container">
-              {images.map((item: ImageObjectType)  => {
+              {items.map((item: ImageObjectType)  => {
                   const id = item.idimageObject; 
 
                   return <FigureContent key={id} item={item}>

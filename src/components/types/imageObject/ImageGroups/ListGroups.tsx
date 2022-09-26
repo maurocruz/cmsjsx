@@ -1,64 +1,57 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 
-import { useImageGroups } from "@hooks";
+import { useImageObject } from "@hooks";
 
-import ImageGroups from './ImageGroups';
+import { ImageFromDatabase } from '@components';
 import ShowGroup from "./ShowGroup";
-import { IconLoading } from "@components/icons"
+import { IconLoading } from "@icons"
 
-
-interface listItem {
-  item: imageObject,
-  position: number
-}
-
-interface imageObject {
-  identifier: {
-      name: string,
-      value: string
-  },
-  contentUrl: string,
-  thumbnail: string;
-  position: number,
-  keywords: string,
-  width: number,
-  height: number
-}
+import { ImageObjectType } from "@types"
+import AppContext, { ImageObjectContext } from "@contexts";
 
 export default function ListGroups() 
 {
-  const { listGroups, numberOfGroups } = useImageGroups();
+  const { setLimit, setOffset } = useContext(AppContext);
+
+  const { setKeywords } = useContext(ImageObjectContext);
+
+  const { items, numberOfItems } = useImageObject();
 
   const [ showIndex, setShowIndex ] = useState(false);
   const [ showImages, setShowImages ] = useState(false);
 
   const [ groupName, setGroupName ] = useState(null);
 
-  function handleShowImages(item) 
-  {
+  function handleShowImages(item: string) {
     setGroupName(item);
-    setShowImages(true);      
+    setShowImages(true);
+    setKeywords(item);
+    setLimit(40);
+    setOffset(0);
+  }
+
+  function handleGoBack() {
+    setShowIndex(true);
+    setKeywords(null);
   }
 
   return (
     <Fragment>
       {showImages 
         
-        ? <ShowGroup groupName={groupName} /> // mostra as imagens do grup
+        ? <ShowGroup groupName={groupName} /> // mostra as imagens do grupo
 
-        : showIndex
-          
-          ? <ImageGroups /> //botao inicial
-
+        : showIndex          
+          ? <ImageFromDatabase /> //botao inicial
           : <div className="imageGroups-list">
-              <p>Mostrando {numberOfGroups} grupos no banco de imagens</p>  
+              <p>Mostrando {numberOfItems} grupos no banco de imagens</p>  
 
-              <button className="button" onClick={() => setShowIndex(true)} type="button">Voltar</button> 
+              <button key="back" className="button" onClick={handleGoBack} type="button">Voltar</button> 
 
-              {listGroups 
-               ? listGroups.map((items: listItem) => (                
-                  <button key={items.position} className="button" onClick={() => handleShowImages(items.item.keywords)} type="button">
-                    {items.item.keywords == "" || items.item.keywords == null ? "Geral" : items.item.keywords}
+              {items 
+               ? items.map((item: ImageObjectType) => (                             
+                  <button key={item.keywords} className="button" onClick={() => handleShowImages(item.keywords)} type="button">
+                    {item.keywords == "" || item.keywords == null ? "Geral" : item.keywords}
                   </button>
                 ))
                 : <IconLoading />

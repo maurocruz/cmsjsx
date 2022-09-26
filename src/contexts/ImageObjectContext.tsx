@@ -1,47 +1,33 @@
-import { ImageObject } from "@components";
-import { useImageObject } from "@hooks";
-import React, { createContext, Dispatch, SetStateAction } from "react";
+import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+
+import  AppContext from "@contexts";
 
 const ImageObjectContext = createContext({} as {
-  limit: number,
-  setLimit: Dispatch<SetStateAction<number>>,
-  offset: number,
-  setOffset: Dispatch<SetStateAction<number>>,
-  images: any[],
-  numberOfItems: number,
   listBy: string,
   setListBy: Dispatch<SetStateAction<string>>,
   keywords: string,
   setKeywords: Dispatch<SetStateAction<string>>,
-  searchParams: URLSearchParams,
-  itemsOnDisplay: number
 });
 
-const ImageObjectProvider = () => 
-{  
-  const search = window.location.search;
-  const searchParams = new URLSearchParams(search);
+const ImageObjectProvider = ({children}: {
+  children: any
+}) => 
+{ 
+  const { searchParams } = useContext(AppContext);
 
-  const { images, numberOfItems, limit, setLimit, offset, setOffset, listBy, setListBy, keywords, setKeywords, itemsOnDisplay } = useImageObject();
+  const [ listBy, setListBy ] = useState(searchParams.has('listBy') ? searchParams.get('listBy') : null);
+  const [ keywords, setKeywords ] = useState(searchParams.has('keywords') ? searchParams.get('keywords') : null);
 
   return (
     <ImageObjectContext.Provider
       value={{
-        limit,
-        setLimit,
-        offset,
-        setOffset,
-        images,
-        numberOfItems,
         listBy,
         setListBy,
         keywords,
-        setKeywords,
-        searchParams,
-        itemsOnDisplay
+        setKeywords
       }}
     >
-      <ImageObject />
+      {children}
     </ImageObjectContext.Provider>
   )
 }

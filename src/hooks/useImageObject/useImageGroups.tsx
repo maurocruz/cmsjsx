@@ -1,27 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
+
 import { Api } from "@services"
+import AppContext from "@contexts";
 
 interface itemList {
   itemListElement: [];
   numberOfItems: string;
 }
 
-export default function useImageGroups()
+export default function useImageGroups({
+  groupBy,
+  keywords,
+}: {
+  groupBy?: string,
+  keywords?: string
+})
 {
-  const [ listGroups, setListGroups ] = useState([]);
-  const [ numberOfGroups, setNumberOfGroups ] = useState('');
+  const { limit, offset} = useContext(AppContext);
+
+  const [ items, setItems ] = useState([]);
+  const [ numberOfItems, setNumberOfItems ] = useState(0);
+  const [ itemsOnDisplay, setItemsOnDisplay ] = useState(0);
 
   useEffect(() => {
-    console.log(globalThis);
-    Api.get<itemList>(`${globalThis.hostApi}imageObject?groupBy=keywords&orderBy=keywords&format=ItemList&fields=distinct(keywords)`)
+
+    axios.get(`${globalThis.hostApi}imageObject?fields=count(distinct keywords) as count`)
       .then(response => {
-        setNumberOfGroups(response.data.numberOfItems);
-        setListGroups(response.data.itemListElement);
-    })    
-  },[]);
+        setNumberOfItems(parseInt(response.data[0].count));
+
+        axios.get(`${globalThis.hostApi}imageObject?groupBy=${groupBy}&orderBy=${groupBy}&limit=${limit}&offset=${offset}`)
+          .then(response => {
+            setItems(response.data);
+            setItemsOnDisplay(response.data.length);
+          })
+      })
+  },[limit, offset]);
 
   return {
-    listGroups,
-    numberOfGroups
+    items,
+    numberOfItems,
+    itemsOnDisplay
   }
 }

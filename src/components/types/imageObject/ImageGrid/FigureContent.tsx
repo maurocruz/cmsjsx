@@ -3,7 +3,11 @@ import { Icon } from "@iconify/react";
 import axios from "axios";
 import { useIntersectionObserver } from '@hooks'
 
-export default function FigureContent({children = null, item, isPartOf = false}) 
+export default function FigureContent({children = null, item, isPartOf = false}: {
+  children?: any,
+  item: any,
+  isPartOf: boolean
+}) 
 {
   const idimageObject = item.idimageObject; 
   const thumbnail = item.thumbnail;
@@ -25,14 +29,24 @@ export default function FigureContent({children = null, item, isPartOf = false})
   
   // COUNT HOW MANY TIMES THIS IMAGE IS REFERENCED
   useEffect(() => {
+
+    let isApiSubscribed = true;
+
     if (isPartOf) {
       axios.get(global.apiHost+`imageObject?isPartOf=${idimageObject}`)
       .then(response => {
-        setCountParts(response.data.length);
+        if (isApiSubscribed) {
+          setCountParts(response.data.length);
+        }
       }).catch(error => {
         console.log(error);
       })
     }
+
+    return () => {
+      isApiSubscribed = false;
+    }
+
   },[isPartOf])
   
   // THUMBNAIL

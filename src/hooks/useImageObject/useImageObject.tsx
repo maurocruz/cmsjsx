@@ -1,35 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-export default function useImageObject(props = {listBy: null, keywords: null }) 
+import { AppContext, ImageObjectContext } from "@contexts";
+
+export default function useImageObject() 
 {
-  const search = window.location.search;
-  const searchParams = new URLSearchParams(search);
-
-  const paramsLimit = searchParams.has('limit') ? parseInt(searchParams.get('limit')) : 40;
-  const paramsOffset = searchParams.has('offset') ? parseInt(searchParams.get('offset')) : 0;
-  const paramslistBy = searchParams.has('listBy') ? searchParams.get('listBy') : null;
-  const paramsKeywords = searchParams.has('keywords') ? searchParams.get('keywords') : null;
-
-  const [ limit, setLimit ] = useState<number>(paramsLimit);
-  const [ offset, setOffset ] = useState<number>(paramsOffset); 
-  const [ listBy, setListBy ] = useState(paramslistBy ?? props.listBy);
-  const [ keywords, setKeywords ] = useState(props.keywords ?? paramsKeywords);
-  const [ itemsOnDisplay, setItemsOnDisplay ] = useState(0);
-
-  const [ numberOfItems, setNumberOfItems ] = useState(0);
-  const [ images, setImages ] = useState([]);
-
-  searchParams.set('limit',limit.toString());
-  searchParams.set('offset',offset.toString());
-
-  if(keywords === null || listBy === null) {
-    searchParams.delete('keywords');    
-  } else {
-    searchParams.set('keywords',keywords);
-  } 
-  window.history.replaceState(null, null,"?"+searchParams.toString());  
+  const { listBy, keywords } = useContext(ImageObjectContext);
   
+  const { offset, setOffset, limit } = useContext(AppContext);
+  
+  const [ itemsOnDisplay, setItemsOnDisplay ] = useState(0);
+  const [ numberOfItems, setNumberOfItems ] = useState(0);
+  const [ items, setItems ] = useState([]);
+
   useEffect(() => {
     // CONTA ITENS NO TOTAL
     let queryCount = '';
@@ -44,7 +27,7 @@ export default function useImageObject(props = {listBy: null, keywords: null })
     }
 
     // OBTÉM ITENS CONFORME LIMIT E OFFSET
-    const query = listBy == 'keywords' && keywords === ''
+    let query = listBy == 'keywords' && keywords === ''
       ? `orderBy=uploadDate desc&keywords=`
       : listBy == 'keywords' && !keywords
         ? `groupBy=keywords&orderBy=keywords&fields=distinct(keywords),contentUrl,thumbnail`
@@ -63,11 +46,14 @@ export default function useImageObject(props = {listBy: null, keywords: null })
         if (offset >= noi || limit >= noi) {
           offsetQuery = 0;
           setOffset(0);
-        }        
+        }
 
-        axios.get(globalThis.apiHost+`imageObject?limit=${limitQuery}&offset=${offsetQuery}&${query}`)
+        if (limit) query += '&limit='+limitQuery;
+        if (offset) query += '&offset='+offsetQuery;
+
+        axios.get(globalThis.apiHost+`imageObject?${query}`)
           .then(response => {
-            setImages(response.data);
+            setItems(response.data);
             setItemsOnDisplay(response.data.length);
           }
         );
@@ -77,16 +63,8 @@ export default function useImageObject(props = {listBy: null, keywords: null })
   },[limit, offset, listBy, keywords]);
 
   return {
-    images,
+    items,
     numberOfItems,
-    limit,
-    setLimit,
-    offset,
-    setOffset,
-    listBy,
-    setListBy,
-    keywords,
-    setKeywords,
     itemsOnDisplay
   }
 }

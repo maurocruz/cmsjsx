@@ -4,32 +4,24 @@ import { PageNavigation } from '@components';
 
 import FigureContent from "./FigureContent";
 import { useImageObject } from "@hooks";
-
-type ImageObjectType = {
-  contentSize: number,
-  contentUrl: string,
-  height: number,
-  width: number,
-  idimageObject: number,
-  thumbnail: string
-}
+import { ImageObjectType } from "@types";
 
 export default function ImagesContainer() 
 { 
-  const { images, numberOfItems, limit, setLimit, offset, setOffset, itemsOnDisplay } = useImageObject();
+  const { items, numberOfItems, itemsOnDisplay } = useImageObject();
   
   return (
     <Fragment>
-      <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} itemsOnDisplay={itemsOnDisplay} />
+      <PageNavigation numberOfItems={numberOfItems} itemsOnDisplay={itemsOnDisplay} />
       
       <div id='imageGrid-container' className='imageGrid-container'>
-        {images.map((item: ImageObjectType) => {
+        {items.map((item: ImageObjectType) => {
           const idimageObject = item.idimageObject;
           return <FigureContent key={idimageObject} item={item} isPartOf={true}/>
         })}
       </div>
 
-      <PageNavigation numberOfItems={numberOfItems} limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} itemsOnDisplay={itemsOnDisplay} />
+      <PageNavigation numberOfItems={numberOfItems} itemsOnDisplay={itemsOnDisplay} />
     </Fragment>
   )
 }

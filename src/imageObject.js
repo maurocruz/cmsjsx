@@ -1,9 +1,12 @@
-import App from './App';
+import React from 'react';
+import { AppRender } from './App';
 
-const app = new App();
+import { ImageObjectProvider } from '@contexts';
+
+import { ImageObject } from "@components";
 
 const target = document.getElementById('imageGrid');
 
 if (target) {
-  app.imageGrid(target);
+  AppRender(<ImageObjectProvider><ImageObject /></ImageObjectProvider>, target)
 }

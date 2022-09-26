@@ -1,29 +1,42 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { ImageGroups } from '@components';
-import Imagesfromserver from './types/imageObject/Imagesfromserver';
+import { AppProvider, ImageObjectProvider } from '@contexts';
+
+import { ImageFromDatabase } from '@components';
+
 import FormSearch from './components/formSearch/FormSearch';
 import AddExistent from './components/addExistent/AddExistent';
 import ChooseType from './components/ChooseType';
-import { ImageObjectProvider } from './contexts/ImageObjectContext';
+
+declare global {
+  var host: string;
+  var hostApi: string;
+  var apiHost: string;
+  var folder: string;
+}
 
 globalThis.host =  (window as any).host ? (window as any).host : 'https://'+window.location.hostname+'/';
-
 globalThis.hostApi = (window as any).apiHost 
   ? ((window as any).apiHost.slice(-1) === '/' ? (window as any).apiHost : (window as any).apiHost+'/') 
-  : 'https://'+window.location.hostname+'/api/';
-  
+  : 'https://'+window.location.hostname+'/api/';  
 globalThis.folder = (window as any).staticFolder ? (window as any).staticFolder : globalThis.host+"../App/static/cms/";
-
 globalThis.apiHost = globalThis.hostApi;
 
+/**
+ * 
+ * @param children 
+ * @param target 
+ */
+function AppRender(children: any, target: Element) {
+  ReactDOM.render(<AppProvider>{children}</AppProvider>, target)
+} 
+
+/**
+ * 
+ */
 class App extends Component 
 {
-  imageGrid(target: HTMLDivElement) {    
-    ReactDOM.render(<ImageObjectProvider/>, target);
-  }
-
   // choose type and select item for the relationship one to one
   chooseType() {
     this.getObjectByClassName("choose-type",<ChooseType/>);
@@ -41,12 +54,7 @@ class App extends Component
 
   // get images on data base
   Imagesfromdatabase() {
-    this.getObjectByClassName("imagesfromdatabase",<ImageGroups/>);
-  }
-
-  // select image on server - ### UNDER DEVELOPMENT ###
-  Imagesfromserver() {
-    this.getObjectByClassName("imagesfromserver",<Imagesfromserver/>);
+    this.getObjectByClassName("imagesfromdatabase",<ImageObjectProvider><ImageFromDatabase/></ImageObjectProvider>);
   }
 
   private getObjectByClassName(classname: string, Component: JSX.Element) {        
@@ -56,8 +64,8 @@ class App extends Component
           for(const key in listObjects) {
               const object = listObjects[key];
               if (typeof object == 'object') {
-                  let cloneComponent = React.cloneElement(Component,{target: object});
-                  ReactDOM.render(cloneComponent, object);
+                  let cloneComponent = React.cloneElement(Component,{target: HTMLElement});
+                  AppRender(cloneComponent, object);
               }
           }
       }
@@ -65,3 +73,4 @@ class App extends Component
 }
 
 export default App;
+export { AppRender }

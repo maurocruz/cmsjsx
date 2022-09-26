@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
-import { ImageObjectContext } from "@contexts";
+import AppContext, { ImageObjectContext } from "@contexts";
 import ImageComponent from "../ImageComponent";
 
 import { PageNavigation } from "@components";
+import { useImageObject } from "@hooks";
+import { ImageObjectType } from "@types";
 
 /**
  * EXPÕE GRUPOS DE FOTOS NA ABA "IMAGEOBJECT > KEYWORDS"
@@ -11,29 +13,30 @@ import { PageNavigation } from "@components";
  * @param param0 
  * @returns 
  */
-export default function GroupOnGrid({listBy}) 
+export default function GroupOnGrid() 
 {
-  const { images, numberOfItems, itemsOnDisplay, limit, setLimit, offset, setOffset, setKeywords } = useContext(ImageObjectContext);
+  const { replaceState } = useContext(AppContext);
+  const { setKeywords, listBy } = useContext(ImageObjectContext);
 
+  const { items, numberOfItems, itemsOnDisplay } = useImageObject();
+
+  /**
+   * OPEN GALLERY
+   * @param keywords
+   */
   function handleOnClick(keywords: string) {
-    setKeywords(keywords)
+    setKeywords(keywords);
+    replaceState('keywords',keywords);
   }
-  
+
   return (
     <div className="imageGroup">
-      <p>List {numberOfItems} groups by {listBy}</p>
+      <p>List {numberOfItems} groups list by {listBy}</p>
 
-      <PageNavigation 
-        numberOfItems={numberOfItems} 
-        itemsOnDisplay={itemsOnDisplay} 
-        limit={limit} 
-        setLimit={setLimit} 
-        offset={offset} 
-        setOffset={setOffset} 
-      />
+      <PageNavigation numberOfItems={numberOfItems} itemsOnDisplay={itemsOnDisplay} />
 
       <ul className="imageGroup-list">
-        {images.map(item => {
+        {items.map((item: ImageObjectType) => {
           const idimageObject = item.idimageObject;
           const contentUrl = item.contentUrl;
           const thumbnail = item.thumbnail;
@@ -49,6 +52,9 @@ export default function GroupOnGrid({listBy})
           )
         })}
       </ul>
+
+      <PageNavigation numberOfItems={numberOfItems} itemsOnDisplay={itemsOnDisplay} />
+
     </div>
   )
 }

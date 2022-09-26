@@ -1,4 +1,4 @@
-import ImageGroups from "./ImageGroups/ImageGroups";
+import ImageGroups from "./ImageGroups/ImageFromDatabase";
 import ImageObject from './ImageObject';
 
 export { ImageGroups }

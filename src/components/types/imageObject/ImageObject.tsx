@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { ImageObjectContext } from "@contexts";
-import { IconArrowBack } from "@components/icons";
+import { AppContext, ImageObjectContext } from "@contexts";
+import { IconArrowBack } from "@icons";
 
 import GroupOnGrid from "./ImageGroups/GroupOnGrid";
 import ImagesContainer from "./ImageGrid/ImagesContainer";
@@ -10,10 +10,22 @@ import './imageObject.scss';
 
 export default function ImageObject()
 {
-  const { listBy, keywords, setKeywords } = useContext(ImageObjectContext);
+  const { replaceState, offset, limit, setLimit, setOffset } = useContext(AppContext);
+  const { keywords, setKeywords, listBy } = useContext(ImageObjectContext);
+
+  useEffect(() => {
+    if(!limit) setLimit(40);
+    if(!offset) setOffset(0);
+    replaceState('limit', limit ? limit.toString() : 40);
+    replaceState('offset', offset ? offset.toString() : 0);
+
+    return () => {}
+
+  },[offset, limit])
 
   function _backHistory() {
     setKeywords(null);
+    replaceState('keywords');
   }
 
   return (
@@ -26,7 +38,7 @@ export default function ImageObject()
       }
 
       {listBy && !keywords
-        ? <GroupOnGrid listBy={listBy} />
+        ? <GroupOnGrid />
         : <ImagesContainer/>
       }
       

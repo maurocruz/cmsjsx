@@ -1,7 +1,10 @@
-import React, { useRef } from "react";
+import { AppContext } from "@contexts";
+import React, { useContext, useRef } from "react";
 
-export default function SelectLimit({limit, setLimit, offset}) 
+export default function SelectLimit() 
 {
+  const { limit, setLimit, offset } = useContext(AppContext);
+
   const selectForm = useRef<HTMLFormElement>(null);
   
   function handleSubmit() {

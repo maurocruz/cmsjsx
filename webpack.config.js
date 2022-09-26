@@ -44,11 +44,12 @@ module.exports = {
   resolve: { 
     extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
     alias: {
-      '@components': path.resolve(__dirname, "./src/components"),
-      '@components/icons': path.resolve(__dirname, "./src/components/icons"),
-      '@hooks': path.resolve(__dirname,"./src/hooks"),
-      '@services': path.resolve(__dirname,"./src/services"),
-      '@contexts': path.resolve(__dirname,"./src/contexts"),
+      '@components': path.resolve(__dirname, "./src/components/index.ts"),
+      '@icons': path.resolve(__dirname, "./src/components/icons/index.tsx"),
+      '@hooks': path.resolve(__dirname,"./src/hooks/index.ts"),
+      '@services': path.resolve(__dirname,"./src/services/index.ts"),
+      '@contexts': path.resolve(__dirname,"./src/contexts/index.ts"),
+      '@types': path.resolve(__dirname,"./src/types/index.ts")
     }    
   },
   output: {

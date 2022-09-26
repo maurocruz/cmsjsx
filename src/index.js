@@ -7,7 +7,6 @@ app.formSearch(); // form search auto complete
 
 // IMAGES FORMS
 app.Imagesfromdatabase(); // images from database
-app.Imagesfromserver(); // images from server
 
 // ADD EXISTENT
 app.addExistent() // search item in input for add type with is part of

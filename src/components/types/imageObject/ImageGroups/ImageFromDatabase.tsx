@@ -1,15 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import AppContext, { ImageObjectContext } from "@contexts";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import ListGroups from "./ListGroups";
 
-export default function ImageGroups() 
+export default function ImageFromDatabase() 
 {
+  const { setListBy } = useContext(ImageObjectContext);
+
   const [ showGroups, setShowGroups ] = useState(false);
 
   const containerRef = useRef(null);
 
   useEffect(() => {
     if(containerRef) {
+      setListBy('keywords');
       containerRef.current.parentNode.style.width = '100%';
     }
   },[containerRef])
